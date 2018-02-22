@@ -22,4 +22,6 @@ public interface ProdutoService {
 	Iterator<Produto> getIterator();
 
 	boolean doesProdutoExist(Produto produto);
+	
+	boolean doesProdutoExist(long id);
 }

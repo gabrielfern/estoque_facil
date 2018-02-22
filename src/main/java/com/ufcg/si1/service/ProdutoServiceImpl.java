@@ -53,8 +53,8 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public void deleteProdutoById(long id) {
 
 		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext();) {
-			Produto p = iterator.next();
-			if (p.getId() == id) {
+			Produto product = iterator.next();
+			if (product.getId() == id) {
 				iterator.remove();
 			}
 		}
@@ -83,8 +83,17 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 
 	public boolean doesProdutoExist(Produto produto) {
-		for (Produto p : produtos) {
-			if (p.getCodigoBarra().equals(produto.getCodigoBarra())) {
+		for (Produto product : produtos) {
+			if (product.getCodigoBarra().equals(produto.getCodigoBarra())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean doesProdutoExist(long id) {
+		for (Produto product : produtos) {
+			if (product.getId() == id) {
 				return true;
 			}
 		}

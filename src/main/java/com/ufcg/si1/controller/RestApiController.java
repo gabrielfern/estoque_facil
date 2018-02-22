@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.service.ProdutoService;
@@ -44,7 +43,7 @@ public class RestApiController {
 	// Produto-------------------------------------------
 
 	@RequestMapping(value = "/produto", method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) throws ObjetoInvalidoException{
+	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) throws ObjetoInvalidoException{
 
 		if (produtoService.doesProdutoExist(produto)) {
 			return new ResponseEntity<>(new CustomErrorType("O produto " + produto.getNome() + " do fabricante "
@@ -53,11 +52,7 @@ public class RestApiController {
 
 		produto.mudaSituacao(Produto.INDISPONIVEL);
 
-
 		produtoService.saveProduto(produto);
-
-		// HttpHeaders headers = new HttpHeaders();
-		// headers.setLocation(ucBuilder.path("/api/produto/{id}").buildAndExpand(produto.getId()).toUri());
 
 		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
 	}
@@ -78,7 +73,7 @@ public class RestApiController {
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateProduto(@PathVariable("id") long id, @RequestBody Produto produto) {
 
-	    if(produtoService.findById(id) != null) {
+	    if(produtoService.doesProdutoExist(id)) {
             produtoService.updateProduto(produto);
             return new ResponseEntity<Produto>(produto, HttpStatus.OK);
         }
@@ -90,10 +85,7 @@ public class RestApiController {
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteProduct(@PathVariable("id") long id) {
 
-		Produto productToBeDeleted = produtoService.findById(id);
-
-
-		if (productToBeDeleted == null) {
+		if (!produtoService.doesProdutoExist(id)) {
 			return new ResponseEntity<>(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
