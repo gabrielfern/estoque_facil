@@ -1,0 +1,8 @@
+package com.ufcg.si1.model;
+
+
+public class ItemVenda {
+
+	Produto produto;
+	int qtd;
+}
