@@ -2,8 +2,6 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
-import com.ufcg.si1.model.DTO.LoteDTO;
-import com.ufcg.si1.model.Lote;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.service.LoteService;
-import com.ufcg.si1.service.LoteServiceImpl;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.service.ProdutoServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
@@ -29,7 +25,6 @@ import exceptions.ObjetoInvalidoException;
 public class RestApiController {
 
 	ProdutoService produtoService = new ProdutoServiceImpl();
-	LoteService loteService = new LoteServiceImpl();
 
 	// -------------------Retrieve All
 	// Products---------------------------------------------
@@ -121,43 +116,5 @@ public class RestApiController {
 		}
 		produtoService.deleteProdutoById(id);
 		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
-	}
-
-	@RequestMapping(value = "/produto/{id}/lote", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("id") long produtoId, @RequestBody LoteDTO loteDTO) {
-		Produto product = produtoService.findById(produtoId);
-
-		if (product == null) {
-			return new ResponseEntity<>(
-					new CustomErrorType("Unable to create lote. Produto with id " + produtoId + " not found."),
-					HttpStatus.NOT_FOUND);
-		}
-
-		Lote lote = loteService.saveLote(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
-
-		try {
-			if (product.getSituacao() == Produto.INDISPONIVEL) {
-				if (loteDTO.getNumeroDeItens() > 0) {
-					Produto produtoDisponivel = product;
-					produtoDisponivel.situacao = Produto.DISPONIVEL;
-					produtoService.updateProduto(produtoDisponivel);
-				}
-			}
-		} catch (ObjetoInvalidoException e) {
-			e.printStackTrace();
-		}
-
-		return new ResponseEntity<>(lote, HttpStatus.CREATED);
-	}
-
-	@RequestMapping(value = "/lote/", method = RequestMethod.GET)
-	public ResponseEntity<List<Lote>> listAllLotess() {
-		List<Lote> lotes = loteService.findAllLotes();
-
-		if (lotes.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
 	}
 }

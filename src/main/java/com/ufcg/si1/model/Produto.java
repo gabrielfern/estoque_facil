@@ -17,6 +17,8 @@ public class Produto {
 	private String fabricante;
 
 	private String categoria;
+	
+	private Lote lote;
 
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
@@ -85,6 +87,14 @@ public class Produto {
 
 	public void mudaCategoria(String categoria) {
 		this.categoria = categoria;
+	}
+	
+	public Lote getLote() {
+		return lote;
+	}
+
+	public void setLote(Lote lote) {
+		this.lote = lote;
 	}
 		
 	public void mudaSituacao(int situacao) throws ObjetoInvalidoException {
