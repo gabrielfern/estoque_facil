@@ -19,7 +19,7 @@ public class Produto {
 
 	private String categoria;
 	
-	private List<Lote> lote;
+	private List<Lote> lotes;
 
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
@@ -90,12 +90,12 @@ public class Produto {
 		this.categoria = categoria;
 	}
 	
-	public Lote getLote() {
-		return lote;
+	public List<Lote> getLote() {
+		return lotes;
 	}
 
-	public void setLote(Lote lote) {
-		this.lote = lote;
+	public void setLote(List<Lote> lote) {
+		this.lotes = lote;
 	}
 		
 	public void mudaSituacao(int situacao) throws ObjetoInvalidoException {
