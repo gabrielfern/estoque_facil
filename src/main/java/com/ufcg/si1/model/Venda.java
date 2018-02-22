@@ -4,6 +4,22 @@ import java.util.List;
 
 public class Venda {
 
-		List<ItemVenda> itens;
-		float valorTotal;
+		private List<ItemVenda> itens;
+		private float valorTotal;
+
+		public List<ItemVenda> getItens() {
+			return itens;
+		}
+
+		public void setItens(List<ItemVenda> itens) {
+			this.itens = itens;
+		}
+
+		public float getValorTotal() {
+			return valorTotal;
+		}
+
+		public void setValorTotal(float valorTotal) {
+			this.valorTotal = valorTotal;
+		}
 }
