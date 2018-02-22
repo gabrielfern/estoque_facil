@@ -1,6 +1,7 @@
 package com.ufcg.si1.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import exceptions.ObjetoInvalidoException;
 
@@ -18,7 +19,7 @@ public class Produto {
 
 	private String categoria;
 	
-	private Lote lote;
+	private List<Lote> lote;
 
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
