@@ -29,7 +29,7 @@ public class RestApiController {
 	// -------------------Retrieve All
 	// Products---------------------------------------------
 
-	@RequestMapping(value = "/produto/", method = RequestMethod.GET)
+	@RequestMapping(value = "/produto", method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> listAllUsers() {
 		List<Produto> produtos = produtoService.findAllProdutos();
 
@@ -43,28 +43,16 @@ public class RestApiController {
 	// -------------------Criar um
 	// Produto-------------------------------------------
 
-	@RequestMapping(value = "/produto/", method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) {
+	@RequestMapping(value = "/produto", method = RequestMethod.POST)
+	public ResponseEntity<?> criarProduto(@RequestBody Produto produto, UriComponentsBuilder ucBuilder) throws ObjetoInvalidoException{
 
-		boolean produtoExiste = false;
-
-		for (Produto p : produtoService.findAllProdutos()) {
-			if (p.getCodigoBarra().equals(produto.getCodigoBarra())) {
-				produtoExiste = true;
-			}
-		}
-
-		if (produtoExiste) {
+		if (produtoService.doesProdutoExist(produto)) {
 			return new ResponseEntity<>(new CustomErrorType("O produto " + produto.getNome() + " do fabricante "
 					+ produto.getFabricante() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
 		}
 
-		try {
-			produto.mudaSituacao(Produto.INDISPONIVEL);
-		} catch (ObjetoInvalidoException e) {
-			return new ResponseEntity<>(new CustomErrorType("Error: Produto" + produto.getNome() + " do fabricante "
-					+ produto.getFabricante() + " alguma coisa errada aconteceu!"), HttpStatus.NOT_ACCEPTABLE);
-		}
+		produto.mudaSituacao(Produto.INDISPONIVEL);
+
 
 		produtoService.saveProduto(produto);
 
@@ -100,17 +88,12 @@ public class RestApiController {
 	}
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
+	public ResponseEntity<?> deleteProduct(@PathVariable("id") long id) {
 
-		Produto user = null;
+		Produto productToBeDeleted = produtoService.findById(id);
 
-		for (Produto produto : produtoService.findAllProdutos()) {
-			if (produto.getId() == id) {
-				user = produto;
-			}
-		}
 
-		if (user == null) {
+		if (productToBeDeleted == null) {
 			return new ResponseEntity<>(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
