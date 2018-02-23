@@ -18,9 +18,10 @@ import com.ufcg.si1.util.CustomErrorType;
 
 import exceptions.ObjetoInvalidoException;
 
+
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
 public class RestApiController {
 
 	ProdutoService produtoService = new ProdutoServiceImpl();
@@ -31,11 +32,9 @@ public class RestApiController {
 		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
 	}
 
-	// -------------------Criar um
-	// Produto-------------------------------------------
 
 	@RequestMapping(value = "/produto", method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) throws ObjetoInvalidoException{
+	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) throws ObjetoInvalidoException {
 
 		if (produtoService.doesProdutoExist(produto)) {
 			return new ResponseEntity<>(new CustomErrorType("O produto " + produto.getNome() + " do fabricante "
@@ -43,24 +42,25 @@ public class RestApiController {
 		}
 
 		produto.mudaSituacao(Produto.INDISPONIVEL);
-
 		produtoService.saveProduto(produto);
 
 		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
 	}
+
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> consultarProduto(@PathVariable("id") long id) {
 
 		Produto produtoProcurado = produtoService.findById(id);
 
-
 		if (produtoProcurado == null) {
 			return new ResponseEntity<>(new CustomErrorType("Produto with id " + id + " not found"),
 					HttpStatus.NOT_FOUND);
 		}
+
 		return new ResponseEntity<Produto>(produtoProcurado, HttpStatus.OK);
 	}
+
 
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateProduto(@PathVariable("id") long id, @RequestBody Produto produto) {
@@ -74,6 +74,7 @@ public class RestApiController {
 					HttpStatus.NOT_FOUND);
 	}
 
+
 	@RequestMapping(value = "/produto/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteProduct(@PathVariable("id") long id) {
 
@@ -82,6 +83,7 @@ public class RestApiController {
 					HttpStatus.NOT_FOUND);
 		}
 		produtoService.deleteProdutoById(id);
+
 		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
 	}
 }
