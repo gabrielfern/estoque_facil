@@ -22,10 +22,12 @@ public class Produto {
 
 	public Situacao situacao;
 
+
 	public Produto() {
 		this.id = 0;
 		this.preco = new BigDecimal(0);
 	}
+
 
 	public Produto(long id, String nome, String codigoBarra, String fabricante,
 			String nomeCategoria) {
@@ -38,69 +40,86 @@ public class Produto {
 		this.situacao = Situacao.INDISPONIVEL;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
+
 
 	public void mudaNome(String nome) {
 		this.nome = nome;
 	}
 
+
 	public BigDecimal getPreco() {
 		return preco;
 	}
+
 
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 
+
 	public long getId() {
 		return id;
 	}
+
 
 	public void mudaId(long codigo) {
 		this.id = codigo;
 	}
 
+
 	public String getFabricante() {
 		return fabricante;
 	}
+
 
 	public void mudaFabricante(String fabricante) {
 		this.fabricante = fabricante;
 	}
 
+
 	public String getCodigoBarra() {
 		return codigoBarra;
 	}
+
 
 	public void setCodigoBarra(String codigoBarra) {
 		this.codigoBarra = codigoBarra;
 	}
 
+
 	public String getCategoria() {
 		return this.categoria;
 	}
+
 
 	public void mudaCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 	
+
 	public List<Lote> getLote() {
 		return lotes;
 	}
 
+
 	public void setLote(List<Lote> lote) {
 		this.lotes = lote;
 	}
-		
+
+
 	public void mudaSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
 
+
 	public Situacao getSituacao() {
 		return this.situacao;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -110,6 +129,7 @@ public class Produto {
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
