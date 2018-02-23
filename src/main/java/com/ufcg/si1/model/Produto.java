@@ -20,10 +20,7 @@ public class Produto {
 	
 	private List<Lote> lotes;
 
-	public int situacao; // usa variaveis estaticas abaixo
-	/* situacoes do produto */
-	public static final int DISPONIVEL = 1;
-	public static final int INDISPONIVEL = 2;
+	public Situacao situacao;
 
 	public Produto() {
 		this.id = 0;
@@ -38,7 +35,7 @@ public class Produto {
 		this.codigoBarra = codigoBarra;
 		this.fabricante = fabricante;
 		this.categoria = nomeCategoria;
-		this.situacao = Produto.INDISPONIVEL;
+		this.situacao = Situacao.INDISPONIVEL;
 	}
 
 	public String getNome() {
@@ -97,21 +94,11 @@ public class Produto {
 		this.lotes = lote;
 	}
 		
-	public void mudaSituacao(int situacao) throws Exception {
-		switch (situacao) {
-		case 1:
-			this.situacao = Produto.DISPONIVEL;
-			break;
-		case 2:
-			this.situacao = Produto.INDISPONIVEL;
-			break;
-
-		default:
-			throw new Exception("Situacao Invalida");
-		}
+	public void mudaSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
-	public int getSituacao() {
+	public Situacao getSituacao() {
 		return this.situacao;
 	}
 

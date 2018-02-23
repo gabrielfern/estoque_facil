@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.model.Situacao;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.service.ProdutoServiceImpl;
 
@@ -38,7 +39,7 @@ public class RestApiController {
 					+ produto.getFabricante() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
 		}
 
-		produto.mudaSituacao(Produto.INDISPONIVEL);
+		produto.mudaSituacao(Situacao.INDISPONIVEL);
 		produtoService.saveProduto(produto);
 
 		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
