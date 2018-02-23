@@ -2,6 +2,7 @@ package com.ufcg.si1.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.model.Situacao;
 import com.ufcg.si1.service.ProdutoService;
-import com.ufcg.si1.service.ProdutoServiceImpl;
 
 
 @CrossOrigin
@@ -22,7 +22,8 @@ import com.ufcg.si1.service.ProdutoServiceImpl;
 @RequestMapping("/api")
 public class RestApiController {
 
-	ProdutoService produtoService = new ProdutoServiceImpl();
+	@Autowired
+	ProdutoService produtoService;
 
 
 	@RequestMapping(value = "/produto", method = RequestMethod.GET)
