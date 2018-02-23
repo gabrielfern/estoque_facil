@@ -25,18 +25,10 @@ public class RestApiController {
 
 	ProdutoService produtoService = new ProdutoServiceImpl();
 
-	// -------------------Retrieve All
-	// Products---------------------------------------------
 
 	@RequestMapping(value = "/produto", method = RequestMethod.GET)
-	public ResponseEntity<List<Produto>> listAllUsers() {
-		List<Produto> produtos = produtoService.findAllProdutos();
-
-		if (produtos.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<List<Produto>>(produtos, HttpStatus.OK);
+	public ResponseEntity<List<Produto>> getProdutos() {
+		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
 	}
 
 	// -------------------Criar um
