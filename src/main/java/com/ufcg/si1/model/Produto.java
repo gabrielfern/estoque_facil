@@ -3,7 +3,6 @@ package com.ufcg.si1.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-import exceptions.ObjetoInvalidoException;
 
 public class Produto {
 
@@ -98,7 +97,7 @@ public class Produto {
 		this.lotes = lote;
 	}
 		
-	public void mudaSituacao(int situacao) throws ObjetoInvalidoException {
+	public void mudaSituacao(int situacao) throws Exception {
 		switch (situacao) {
 		case 1:
 			this.situacao = Produto.DISPONIVEL;
@@ -108,11 +107,11 @@ public class Produto {
 			break;
 
 		default:
-			throw new ObjetoInvalidoException("Situacao Invalida");
+			throw new Exception("Situacao Invalida");
 		}
 	}
 
-	public int getSituacao() throws ObjetoInvalidoException {
+	public int getSituacao() {
 		return this.situacao;
 	}
 

@@ -16,8 +16,6 @@ import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.service.ProdutoServiceImpl;
 import com.ufcg.si1.util.CustomErrorType;
 
-import exceptions.ObjetoInvalidoException;
-
 
 @CrossOrigin
 @RestController
@@ -34,10 +32,10 @@ public class RestApiController {
 
 
 	@RequestMapping(value = "/produto", method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) throws ObjetoInvalidoException {
+	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) throws Exception {
 
 		if (produtoService.doesProdutoExist(produto)) {
-			return new ResponseEntity<>(new CustomErrorType("O produto " + produto.getNome() + " do fabricante "
+			return new ResponseEntity<>(new Exception("O produto " + produto.getNome() + " do fabricante "
 					+ produto.getFabricante() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
 		}
 
