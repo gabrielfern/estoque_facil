@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.service.ProdutoServiceImpl;
-import com.ufcg.si1.util.CustomErrorType;
 
 
 @CrossOrigin
@@ -52,7 +51,7 @@ public class RestApiController {
 		Produto produtoProcurado = produtoService.findById(id);
 
 		if (produtoProcurado == null) {
-			return new ResponseEntity<>(new CustomErrorType("Produto with id " + id + " not found"),
+			return new ResponseEntity<>(new Exception("Produto with id " + id + " not found"),
 					HttpStatus.NOT_FOUND);
 		}
 
@@ -68,7 +67,7 @@ public class RestApiController {
             return new ResponseEntity<Produto>(produto, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(new CustomErrorType("Unable to upate. Produto with id " + id + " not found."),
+        return new ResponseEntity<>(new Exception("Unable to upate. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 	}
 
@@ -77,7 +76,7 @@ public class RestApiController {
 	public ResponseEntity<?> deleteProduct(@PathVariable("id") long id) {
 
 		if (!produtoService.doesProdutoExist(id)) {
-			return new ResponseEntity<>(new CustomErrorType("Unable to delete. Produto with id " + id + " not found."),
+			return new ResponseEntity<>(new Exception("Unable to delete. Produto with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 		produtoService.deleteProdutoById(id);
