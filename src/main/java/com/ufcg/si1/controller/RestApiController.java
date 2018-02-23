@@ -29,6 +29,17 @@ public class RestApiController {
 	public ResponseEntity<List<Produto>> getProdutos() {
 		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/enum", method = RequestMethod.GET)
+	public ResponseEntity<Situacao> getEnum() {
+		return new ResponseEntity<>(Situacao.DISPONIVEL, HttpStatus.I_AM_A_TEAPOT);
+	}
+	
+	@RequestMapping(value = "/enum", method = RequestMethod.POST)
+	public ResponseEntity<Situacao> setEnum(@RequestBody Situacao situacao) {
+		return new ResponseEntity<>(situacao, HttpStatus.I_AM_A_TEAPOT);
+	}
 
 
 	@RequestMapping(value = "/produto", method = RequestMethod.POST)
