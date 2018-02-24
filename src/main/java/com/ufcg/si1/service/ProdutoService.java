@@ -71,7 +71,9 @@ public class ProdutoService {
 	}
 	
 	public void abateQtdProdutosLote(Integer produtoId, int qtd) {
-		produtoRepository.getOne(produtoId).abateQtdProdutosLote(qtd);
+		Produto produto = produtoRepository.getOne(produtoId);
+		produto.abateQtdProdutosLote(qtd);
+		produtoRepository.save(produto);
 	}
 
 	public double calculaPreco(Integer idProduct, int qtdAVender) {

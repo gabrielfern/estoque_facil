@@ -173,7 +173,15 @@ public class Produto {
 				qtdProdutos = 0;
 			}
 		}
+		
+		verificaDisponibilidadeProduto();
 	}
+
+	private void verificaDisponibilidadeProduto() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	public int getDescontoCategoria() {
 		// TODO Auto-generated method stub
