@@ -23,7 +23,7 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService produtoService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value="s", method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> getProdutos() {
 		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
 	}
