@@ -16,20 +16,23 @@ import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.model.enums.Situacao;
 import com.ufcg.si1.service.ProdutoService;
 
+
 @RestController
-@RequestMapping("api/produto")
+@RequestMapping("/api/produtos")
 public class ProdutoController {
 	
 	@Autowired
 	private ProdutoService produtoService;
+
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> getProdutos() {
 		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
 	}
 
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> consultarProduto(@PathVariable("id") Integer id) {
+	public ResponseEntity<?> getProduto(@PathVariable("id") Integer id) {
 
 		Produto produtoProcurado = produtoService.findById(id);
 
@@ -39,8 +42,9 @@ public class ProdutoController {
 
 		return new ResponseEntity<Produto>(produtoProcurado, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/{id}/lote", method = RequestMethod.GET)
+
+
+	@RequestMapping(value = "/{id}/lotes", method = RequestMethod.GET)
 	public ResponseEntity<?> getLotesProduto(@PathVariable("id") Integer produtoId) {
 		
 		if (!produtoService.doesProdutoExist(produtoId)) {
@@ -51,6 +55,4 @@ public class ProdutoController {
 
 		return new ResponseEntity<>(lotesProduto, HttpStatus.CREATED);
 	}
-
-
 }
