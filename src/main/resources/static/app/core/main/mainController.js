@@ -1,6 +1,6 @@
 app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$location, mainService) {
 
-    var urlServer = "http://localhost:8080/api/";
+    var urlServer = "/api";
     // $scope.title = "Search Product";
     $scope.productsList = [];
     $scope.produtos = [];
@@ -67,7 +67,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     $scope.pesquisarProdutoPorId = function(id) {
         // implementar
         console.log(id)
-        $http.get("http://localhost:8080/api/produto/" + id)
+        $http.get("/api/produto" + id)
             .then(function successCallback(response) {
                 $scope.productsList = [
                     response.data
@@ -147,7 +147,7 @@ app.controller("CreateProductCtrl", function ($uibModalInstance, $http, toastr) 
 
         // product.situacao = situacao === 1 ? 1 : 2;
 
-        $http.post("http://localhost:8080/api/produto/", JSON.stringify(product))
+        $http.post("/api/produto", JSON.stringify(product))
             .then(function success(response) {
                 if (response.status === 201) {
                     toastr.success("Produto adicionado com sucesso!");
@@ -223,7 +223,7 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
             numeroDeItens: numeroDeItens
         }
 
-        $http.post("http://localhost:8080/api/produto/" + produto.id + "/lote", JSON.stringify(lote))
+        $http.post("/api/produto" + produto.id + "/lote", JSON.stringify(lote))
             .then(function success(response) {
                 console.log(response)
                 if (response.status === 201) {
