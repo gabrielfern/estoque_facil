@@ -66,4 +66,12 @@ public class ProdutoService {
 		return produtoRepository.getOne(produtoId).getLote();
 	}
 	
+	public int getQtdProdutosLote(Integer id) {
+		return produtoRepository.getOne(id).getQtdProdutosDisponiveis();
+	}
+	
+	public void abateQtdProdutosLote(Integer produtoId, int qtd) {
+		produtoRepository.getOne(produtoId).abateQtdProdutosLote(qtd);
+	}
+	
 }

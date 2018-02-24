@@ -2,6 +2,7 @@ package com.ufcg.si1.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -150,14 +151,28 @@ public class Produto {
 		return this.situacao;
 	}
 	
-	public long getQtdProdutosDisponiveis() {
+	public int getQtdProdutosDisponiveis() {
 		
-		long qtdProdutos = 0;
+		int qtdProdutos = 0;
 		if(this.getSituacao() == Situacao.DISPONIVEL) {
 			for(Lote lote: this.getLote())
 				qtdProdutos += lote.getNumeroDeItens();
 		}
 		return qtdProdutos;
+	}
+	
+	public void abateQtdProdutosLote(int qtdProdutos) {
+		Iterator<Lote> it = this.getLote().iterator();
+		while(it.hasNext() && qtdProdutos > 0) {
+			Lote lote = it.next();
+			if(lote.getNumeroDeItens() <= qtdProdutos) {
+				qtdProdutos -= lote.getNumeroDeItens();
+				it.remove();
+			} else {
+				lote.setNumeroDeItens(lote.getNumeroDeItens() - qtdProdutos);
+				qtdProdutos = 0;
+			}
+		}
 	}
 
 
