@@ -24,6 +24,10 @@ public class ProdutoService {
 	}
 
 	public void updateProduto(Produto produto) {
+		if(produto.getSituacao() == null) {
+			Produto oldProduct = produtoRepository.getOne(produto.getId());
+			produto.mudaSituacao(oldProduct.getSituacao());
+		}
 		produtoRepository.save(produto);
 	}
 
@@ -56,5 +60,9 @@ public class ProdutoService {
 		productToAddLote.saveLote(lote);
 		produtoRepository.save(productToAddLote);
 		return lote;
+	}
+
+	public List<Lote> getLotesProduto(Integer produtoId) {
+		return produtoRepository.getOne(produtoId).getLote();
 	}
 }

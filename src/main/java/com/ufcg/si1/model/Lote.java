@@ -4,13 +4,14 @@ package com.ufcg.si1.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Lote {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column
     private Integer id;
 	@Column
@@ -20,16 +21,7 @@ public class Lote {
 
 
     public Lote() {
-        this.id = 0;
     }
-
-
-    public Lote(Produto produto, int numeroDeItens, String dataDeValidade) {
-        super();
-        this.numeroDeItens = numeroDeItens;
-        this.dataDeValidade = dataDeValidade;
-    }
-
 
     public Lote(Integer id, Produto produto, int numeroDeItens, String dataDeValidade) {
         this.id = id;
@@ -76,4 +68,6 @@ public class Lote {
                 ", dataDeValidade='" + dataDeValidade + '\'' +
                 '}';
     }
+    
+    
 }

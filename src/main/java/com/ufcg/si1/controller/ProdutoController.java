@@ -60,6 +60,7 @@ public class ProdutoController {
 	public ResponseEntity<?> updateProduto(@PathVariable("id") Integer id, @RequestBody Produto produto) {
 
 	    if(produtoService.doesProdutoExist(id)) {
+	    	produto.mudaId(id);
             produtoService.updateProduto(produto);
             return new ResponseEntity<Produto>(produto, HttpStatus.OK);
         }
@@ -79,7 +80,7 @@ public class ProdutoController {
 		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
 	}
 	
-	@RequestMapping(value = "/produto/{id}/lote", method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/lote", method = RequestMethod.POST)
 	public ResponseEntity<?> criarLote(@PathVariable("id") Integer produtoId, @RequestBody Lote lote) {
 		
 		if (!produtoService.doesProdutoExist(produtoId)) {
@@ -88,7 +89,20 @@ public class ProdutoController {
 		
 		produtoService.saveLote(produtoId, lote);
 
-		return new ResponseEntity<>(lote, HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/{id}/lote", method = RequestMethod.GET)
+	public ResponseEntity<?> getLotesProduto(@PathVariable("id") Integer produtoId) {
+		
+		if (!produtoService.doesProdutoExist(produtoId)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<Lote> lotesProduto = produtoService.getLotesProduto(produtoId);
+
+		return new ResponseEntity<>(lotesProduto, HttpStatus.CREATED);
+	}
+
 
 }
