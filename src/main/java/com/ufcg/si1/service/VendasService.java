@@ -22,6 +22,19 @@ public class VendasService {
 	public boolean realizaVenda(Venda venda) {
 		boolean vendaValida = this.validaVenda(venda);
 		
+		if(vendaValida) {
+			List<ItemVenda> itensVenda = venda.getItens();
+			double precoTotal = 0.0;
+			for(ItemVenda itemVenda: itensVenda) {
+				Integer idProduct = itemVenda.getProduto().getId();
+				int qtdAVender = itemVenda.getQtd();
+				precoTotal += produtoService.calculaPreco(idProduct, qtdAVender);
+				produtoService.abateQtdProdutosLote(idProduct, qtdAVender);
+			}
+			venda.setValorTotal(precoTotal);
+			this.registraVenda(venda);
+		}
+		
 		return vendaValida;
 		
 	}
@@ -31,9 +44,7 @@ public class VendasService {
 		for(ItemVenda itemVenda: itensVenda) {
 			Integer idProduct = itemVenda.getProduto().getId();
 			int qtdAVender = itemVenda.getQtd();
-			if(this.podeVender(idProduct, qtdAVender)) 
-				produtoService.abateQtdProdutosLote(idProduct, qtdAVender);
-			else
+			if(!this.podeVender(idProduct, qtdAVender)) 
 				return false;
 		}
 		
