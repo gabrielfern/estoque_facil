@@ -1,97 +1,60 @@
 package com.ufcg.si1.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
-
+import com.ufcg.si1.repository.ProdutoRepository;
 
 @Service("produtoService")
 public class ProdutoService {
-
-	private static final AtomicLong counter = new AtomicLong();
-
-	private List<Produto> produtos;
-
-
-	public ProdutoService() {
-		this.produtos = new ArrayList<>();
-	}
-
+	
+	@Autowired
+	ProdutoRepository produtoRepository;
 
 	public List<Produto> findAllProdutos() {
-		return produtos;
+		return produtoRepository.findAll();
 	}
-
 
 	public void saveProduto(Produto produto) {
-		produto.mudaId(counter.incrementAndGet());
-		produtos.add(produto);
+		produtoRepository.save(produto);
 	}
-
 
 	public void updateProduto(Produto produto) {
-		int index = produtos.indexOf(produto);
-		produtos.set(index, produto);
+		produtoRepository.save(produto);
 	}
 
-
-	public void deleteProdutoById(long id) {
-
-		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext();) {
-			Produto product = iterator.next();
-			if (product.getId() == id) {
-				iterator.remove();
-			}
-		}
+	public void deleteProdutoById(Integer id) {
+		produtoRepository.delete(id);
 	}
 
-
-	public int size() {
-		return produtos.size();
+	public long size() {
+		return produtoRepository.count();
 	}
 
-
-	public Iterator<Produto> getIterator() {
-		return produtos.iterator();
+	public void deleteAllProducts() {
+		produtoRepository.deleteAll();
 	}
 
-
-	public void deleteAllUsers() {
-		produtos.clear();
+	public Produto findById(Integer id) {
+		return produtoRepository.findOne(id);
 	}
-
-
-	public Produto findById(long id) {
-		for (Produto produto : produtos) {
-			if (produto.getId() == id) {
-				return produto;
-			}
-		}
-		return null;
-	}
-
 
 	public boolean doesProdutoExist(Produto produto) {
-		for (Produto product : produtos) {
-			if (product.getCodigoBarra().equals(produto.getCodigoBarra())) {
-				return true;
-			}
-		}
-		return false;
+		return produtoRepository.hasProduct(produto.getCodigoBarra());
 	}
-
-
-	public boolean doesProdutoExist(long id) {
-		for (Produto product : produtos) {
-			if (product.getId() == id) {
-				return true;
-			}
-		}
-		return false;
+	
+	public boolean doesProdutoExist(Integer id) {
+		return produtoRepository.exists(id);
+	}
+	
+	public Lote saveLote(Integer idProduct, Lote lote) {
+		Produto productToAddLote = produtoRepository.findOne(idProduct);
+		productToAddLote.saveLote(lote);
+		produtoRepository.save(productToAddLote);
+		return lote;
 	}
 }

@@ -1,35 +1,52 @@
 package com.ufcg.si1.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import com.ufcg.si1.model.enums.Situacao;
+
+@Entity
 public class Produto {
-
-	private long id;
-
-	private String nome;
-
-	private BigDecimal preco;
-
-	private String codigoBarra;
-
-	private String fabricante;
-
-	private String categoria;
 	
+	@Id
+	@GeneratedValue
+	@Column
+	private Integer id;
+
+	@Column
+	private String nome;
+	@Column
+	private BigDecimal preco;
+	@Column
+	private String codigoBarra;
+	@Column
+	private String fabricante;
+	@Column
+	private String categoria;
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Lote> lotes;
 
+	@Column
+	@Enumerated
 	public Situacao situacao;
 
 
 	public Produto() {
-		this.id = 0;
 		this.preco = new BigDecimal(0);
+		this.lotes = new ArrayList<Lote>();
 	}
 
 
-	public Produto(long id, String nome, String codigoBarra, String fabricante,
+	public Produto(Integer id, String nome, String codigoBarra, String fabricante,
 			String nomeCategoria) {
 		this.id = id;
 		this.nome = nome;
@@ -38,6 +55,8 @@ public class Produto {
 		this.fabricante = fabricante;
 		this.categoria = nomeCategoria;
 		this.situacao = Situacao.INDISPONIVEL;
+
+		this.lotes = new ArrayList<Lote>();
 	}
 
 
@@ -61,12 +80,12 @@ public class Produto {
 	}
 
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
-	public void mudaId(long codigo) {
+	public void mudaId(Integer codigo) {
 		this.id = codigo;
 	}
 
@@ -108,6 +127,17 @@ public class Produto {
 
 	public void setLote(List<Lote> lote) {
 		this.lotes = lote;
+	}
+	
+	public void saveLote(Lote lote) {
+		
+		if(this.getSituacao() == Situacao.INDISPONIVEL) {
+			if (lote.getNumeroDeItens() > 0) {
+				this.mudaSituacao(Situacao.DISPONIVEL);
+			}
+		}
+		
+		this.lotes.add(lote);		
 	}
 
 
@@ -152,4 +182,5 @@ public class Produto {
 			return false;
 		return true;
 	}
+
 }

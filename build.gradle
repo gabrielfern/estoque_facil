@@ -1,4 +1,4 @@
-buildscript {
+	buildscript {
     ext {
         springBootVersion = '1.5.3.RELEASE'
     }
@@ -21,5 +21,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     compile "org.springframework.boot:spring-boot-devtools:$springBootVersion"
-    runtime "com.h2database:h2"
+   	compile ('postgresql:postgresql:9.1-901-1.jdbc4')
+	compile ('io.jsonwebtoken:jjwt:0.9.0')
 }

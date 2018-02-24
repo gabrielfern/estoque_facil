@@ -1,12 +1,21 @@
 package com.ufcg.si1.model;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Lote {
 
-    private long id;
-
+	@Id
+	@GeneratedValue
+	@Column
+    private Integer id;
+	@Column
     private int numeroDeItens;
-
+	@Column
     private String dataDeValidade;
 
 
@@ -22,19 +31,19 @@ public class Lote {
     }
 
 
-    public Lote(long id, Produto produto, int numeroDeItens, String dataDeValidade) {
+    public Lote(Integer id, Produto produto, int numeroDeItens, String dataDeValidade) {
         this.id = id;
         this.numeroDeItens = numeroDeItens;
         this.dataDeValidade = dataDeValidade;
     }
 
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
