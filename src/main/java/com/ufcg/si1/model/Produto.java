@@ -175,6 +175,10 @@ public class Produto {
 		}
 	}
 
+	public int getDescontoCategoria() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	@Override
 	public int hashCode() {
@@ -214,6 +218,8 @@ public class Produto {
 		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", codigoBarra=" + codigoBarra
 				+ ", fabricante=" + fabricante + ", categoria=" + categoria + "]";
 	}
+
+
 	
 	
 

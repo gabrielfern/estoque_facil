@@ -23,13 +23,17 @@ public class Venda {
 	private List<ItemVenda> itens;
 
 	@Column
-	private float valorTotal;
+	private double valorTotal;
 	
 	public Venda() {
-		
+		this.valorTotal = 0.0;
 	}
 	
-	public Venda(Integer id, List<ItemVenda> itens, float valorTotal) {
+	public Venda(Integer id, List<ItemVenda> itens) {
+		this(id, itens, 0.0);
+	}
+	
+	public Venda(Integer id, List<ItemVenda> itens, double valorTotal) {
 		this.id = id;
 		this.itens = itens;
 		this.valorTotal = valorTotal;
@@ -46,12 +50,12 @@ public class Venda {
 	}
 
 
-	public float getValorTotal() {
+	public double getValorTotal() {
 		return valorTotal;
 	}
 
 
-	public void setValorTotal(float valorTotal) {
+	public void setValorTotal(double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 
