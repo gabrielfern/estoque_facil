@@ -141,7 +141,6 @@ public class Produto {
 		this.lotes.add(lote);		
 	}
 
-
 	public void mudaSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
@@ -149,6 +148,16 @@ public class Produto {
 
 	public Situacao getSituacao() {
 		return this.situacao;
+	}
+	
+	public long getQtdProdutosDisponiveis() {
+		
+		long qtdProdutos = 0;
+		if(this.getSituacao() == Situacao.DISPONIVEL) {
+			for(Lote lote: this.getLote())
+				qtdProdutos += lote.getNumeroDeItens();
+		}
+		return qtdProdutos;
 	}
 
 
@@ -183,5 +192,14 @@ public class Produto {
 			return false;
 		return true;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", codigoBarra=" + codigoBarra
+				+ ", fabricante=" + fabricante + ", categoria=" + categoria + "]";
+	}
+	
+	
 
 }

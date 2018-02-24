@@ -1,4 +1,4 @@
-package com.ufcg.si1.model;
+	package com.ufcg.si1.model;
 
 
 public class ItemVenda {
@@ -26,4 +26,12 @@ public class ItemVenda {
 	public void setQtd(int qtd) {
 		this.qtd = qtd;
 	}
+
+
+	@Override
+	public String toString() {
+		return "ItemVenda [produto=" + produto + ", qtd=" + qtd + "]";
+	}
+	
+	
 }

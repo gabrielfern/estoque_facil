@@ -65,4 +65,5 @@ public class ProdutoService {
 	public List<Lote> getLotesProduto(Integer produtoId) {
 		return produtoRepository.getOne(produtoId).getLote();
 	}
+	
 }

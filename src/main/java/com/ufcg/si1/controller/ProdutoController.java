@@ -23,25 +23,10 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService produtoService;
 
-	@RequestMapping(value="s", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> getProdutos() {
 		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
 	}
-
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) throws Exception {
-
-		if (produtoService.doesProdutoExist(produto)) {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}
-
-		produto.mudaSituacao(Situacao.INDISPONIVEL);
-		produtoService.saveProduto(produto);
-
-		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
-	}
-
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> consultarProduto(@PathVariable("id") Integer id) {
@@ -53,43 +38,6 @@ public class ProdutoController {
 		}
 
 		return new ResponseEntity<Produto>(produtoProcurado, HttpStatus.OK);
-	}
-
-
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateProduto(@PathVariable("id") Integer id, @RequestBody Produto produto) {
-
-	    if(produtoService.doesProdutoExist(id)) {
-	    	produto.mudaId(id);
-            produtoService.updateProduto(produto);
-            return new ResponseEntity<Produto>(produto, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
-
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteProduct(@PathVariable("id") Integer id) {
-
-		if (!produtoService.doesProdutoExist(id)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		produtoService.deleteProdutoById(id);
-
-		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
-	}
-	
-	@RequestMapping(value = "/{id}/lote", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@PathVariable("id") Integer produtoId, @RequestBody Lote lote) {
-		
-		if (!produtoService.doesProdutoExist(produtoId)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		produtoService.saveLote(produtoId, lote);
-
-		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/{id}/lote", method = RequestMethod.GET)
