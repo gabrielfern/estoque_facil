@@ -12,9 +12,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.ufcg.si1.model.enums.Situacao;
+
 
 @Entity
 public class Produto {
@@ -37,6 +39,7 @@ public class Produto {
 	private String fabricante;
 
 	@Column
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Categoria categoria;
 
 	@OneToMany(cascade = CascadeType.ALL)

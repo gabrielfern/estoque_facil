@@ -47,7 +47,8 @@ public class Categoria {
 	public void setDesconto(float desconto) {
 		this.desconto = desconto;
 	}
-	
+
+
 	public float calculaDesconto(float valor) {
 		return valor * desconto;
 	}

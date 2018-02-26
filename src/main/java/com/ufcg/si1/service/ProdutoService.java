@@ -87,7 +87,5 @@ public class ProdutoService {
 	public String getDetalhesProduto(Integer idProduct) {
 		Produto produto = produtoRepository.getOne(idProduct);
 		return "Nome: " + produto.getNome() + ", Fabricante: " + produto.getFabricante();
-		
 	}
-	
 }

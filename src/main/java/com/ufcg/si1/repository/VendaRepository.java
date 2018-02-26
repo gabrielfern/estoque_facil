@@ -5,5 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ufcg.si1.model.Venda;
 
+
 @Repository
 public interface VendaRepository extends JpaRepository<Venda, Integer> {}
