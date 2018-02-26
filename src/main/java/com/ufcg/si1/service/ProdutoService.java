@@ -9,6 +9,7 @@ import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.repository.ProdutoRepository;
 
+
 @Service("produtoService")
 public class ProdutoService {
 	

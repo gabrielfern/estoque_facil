@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufcg.si1.model.Categoria;
+//import com.ufcg.si1.model.Categoria;
 import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.model.Venda;
 import com.ufcg.si1.model.enums.Situacao;
-import com.ufcg.si1.service.CategoriaService;
+//import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.service.VendasService;
 
@@ -34,8 +34,8 @@ public class AdminController {
 	@Autowired
 	private VendasService vendasService;
 
-	@Autowired
-	private CategoriaService categoriaService;
+//	@Autowired
+//	private CategoriaService categoriaService;
 
 
 	@RequestMapping(value = "/produtos", method = RequestMethod.POST)
@@ -126,27 +126,27 @@ public class AdminController {
 	}
 
 
-	@RequestMapping(value= "/categorias", method = RequestMethod.GET)
-	public ResponseEntity<?> getCategorias(@RequestParam String senha) {
-		if (_autentica(senha)) {
-			return new ResponseEntity<>(categoriaService.getCategorias(), HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-	}
-
-
-	@RequestMapping(value= "/categorias/{categoriaId}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateCategoria(@RequestParam String senha, @PathVariable Integer categoriaId, 
-			@RequestBody Categoria categoria) {
-		if (_autentica(senha)) {
-			if (categoriaService.hasCategoria(categoriaId)) {
-				categoriaService.saveCategoria(categoriaId, categoria);
-				return new ResponseEntity<>(HttpStatus.OK);
-			}
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-	}
+//	@RequestMapping(value= "/categorias", method = RequestMethod.GET)
+//	public ResponseEntity<?> getCategorias(@RequestParam String senha) {
+//		if (_autentica(senha)) {
+//			return new ResponseEntity<>(categoriaService.getCategorias(), HttpStatus.OK);
+//		}
+//
+//		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//	}
+//
+//
+//	@RequestMapping(value= "/categorias/{id}", method = RequestMethod.PUT)
+//	public ResponseEntity<?> updateCategoria(@RequestParam String senha, @PathVariable Integer id, 
+//			@RequestBody Categoria categoria) {
+//		if (_autentica(senha)) {
+//			if (categoriaService.hasCategoria(id)) {
+//				categoriaService.saveCategoria(id, categoria);
+//				return new ResponseEntity<>(HttpStatus.OK);
+//			}
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//
+//		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//	}
 }
