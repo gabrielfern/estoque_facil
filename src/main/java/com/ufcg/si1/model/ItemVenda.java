@@ -14,21 +14,31 @@ public class ItemVenda {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column
 	private Integer id;
-
+	
+	
 	transient Produto produto;
+	
+	@Column
+	private String detalhesProduto;
 
 	@Column
 	private int qtd;
 	
 	public ItemVenda() {
-		
+		this.qtd = 0;
 	}
 	
-	public ItemVenda(Integer id, Produto produto, int qtd) {
-		this.id = id;
+	public ItemVenda(Produto produto, int qtd, String detalhesProduto) {
 		this.produto = produto;
 		this.qtd = qtd;
+		this.detalhesProduto = detalhesProduto;
 	}
+	
+	public ItemVenda(Integer id, Produto produto, int qtd, String detalhesProduto) {
+		this(produto, qtd, detalhesProduto);
+		this.id = id;
+	}
+	
 
 
 	public Produto getProduto() {
@@ -49,7 +59,25 @@ public class ItemVenda {
 	public void setQtd(int qtd) {
 		this.qtd = qtd;
 	}
+	
+	
 
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getDetalhesProduto() {
+		return detalhesProduto;
+	}
+
+	public void setDetalhesProduto(String detalhesProduto) {
+		this.detalhesProduto = detalhesProduto;
+	}
 
 	@Override
 	public String toString() {
