@@ -67,7 +67,7 @@ public class ProdutoService {
 	}
 	
 	public int getQtdProdutosLote(Integer id) {
-		return produtoRepository.getOne(id).getQtdProdutosDisponiveis();
+		return produtoRepository.getOne(id).qtdProdutosDisponiveis();
 	}
 	
 	public void abateQtdProdutosLote(Integer produtoId, int qtd) {
@@ -79,7 +79,7 @@ public class ProdutoService {
 	public double calculaPreco(Integer idProduct, int qtdAVender) {
 		Produto produto = produtoRepository.getOne(idProduct);
 		int PORCENTAGEM_TOTAL = 1;
-		double porcentagemfinalproduto = PORCENTAGEM_TOTAL - produto.getDescontoCategoria();
+		double porcentagemfinalproduto = PORCENTAGEM_TOTAL - produto.descontoCategoria();
 		return (produto.getPreco().doubleValue() * porcentagemfinalproduto) * qtdAVender;
 	}
 	

@@ -150,8 +150,9 @@ public class Produto {
 	public Situacao getSituacao() {
 		return this.situacao;
 	}
-	
-	public int getQtdProdutosDisponiveis() {
+
+
+	public int qtdProdutosDisponiveis() {
 		
 		int qtdProdutos = 0;
 		if(this.getSituacao() == Situacao.DISPONIVEL) {
@@ -183,9 +184,8 @@ public class Produto {
 	}
 
 
-	public int getDescontoCategoria() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int descontoCategoria() {
+		return 2;
 	}
 
 	@Override
