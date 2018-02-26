@@ -26,14 +26,19 @@ public class Produto {
 
 	@Column
 	private String nome;
+
 	@Column
 	private BigDecimal preco;
+
 	@Column
 	private String codigoBarra;
+
 	@Column
 	private String fabricante;
+
 	@Column
-	private String categoria;
+	private Categoria categoria;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Lote> lotes;
 
@@ -49,7 +54,7 @@ public class Produto {
 
 
 	public Produto(Integer id, String nome, String codigoBarra, String fabricante,
-			String nomeCategoria) {
+			Categoria nomeCategoria) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = new BigDecimal(0);
@@ -112,12 +117,12 @@ public class Produto {
 	}
 
 
-	public String getCategoria() {
+	public Categoria getCategoria() {
 		return this.categoria;
 	}
 
 
-	public void mudaCategoria(String categoria) {
+	public void mudaCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 	
