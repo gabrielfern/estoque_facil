@@ -2,8 +2,6 @@ package com.ufcg.si1.service;
 
 import java.util.List;
 
-import javax.servlet.ServletException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,9 +57,4 @@ public class VendasService {
 	private void registraVenda(Venda venda) {
 		vendaRepository.save(venda);
 	}
-	
-	
-	
-	
-
 }
