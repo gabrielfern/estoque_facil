@@ -12,7 +12,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.ufcg.si1.model.enums.Situacao;
@@ -39,8 +38,8 @@ public class Produto {
 	private String fabricante;
 
 	@Column
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Categoria categoria;
+	//@ManyToOne(cascade = CascadeType.ALL)
+	private String categoria;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Lote> lotes;
@@ -57,7 +56,7 @@ public class Produto {
 
 
 	public Produto(Integer id, String nome, String codigoBarra, String fabricante,
-			Categoria nomeCategoria) {
+			String nomeCategoria) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = new BigDecimal(0);
@@ -120,12 +119,12 @@ public class Produto {
 	}
 
 
-	public Categoria getCategoria() {
+	public String getCategoria() {
 		return this.categoria;
 	}
 
 
-	public void mudaCategoria(Categoria categoria) {
+	public void mudaCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 	
