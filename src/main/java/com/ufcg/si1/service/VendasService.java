@@ -57,4 +57,17 @@ public class VendasService {
 	private void registraVenda(Venda venda) {
 		vendaRepository.save(venda);
 	}
+
+	public List<Venda> findAllVendas() {
+		return vendaRepository.findAll();
+	}
+
+	public double geraReceita() {
+		List<Venda> registroVendas = this.findAllVendas();
+
+		double receitaTotal = 0.0;
+		for(Venda venda: registroVendas)
+			receitaTotal += venda.getValorTotal();
+		return receitaTotal;
+	}
 }

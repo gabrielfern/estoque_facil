@@ -1,5 +1,7 @@
 package com.ufcg.si1.controller;
 
+import com.ufcg.si1.model.Relatorio;
+import com.ufcg.si1.service.RelatorioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,20 +28,21 @@ import com.ufcg.si1.service.VendasService;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-	private final String adminSenha = "banana";
-
 	@Autowired
 	private ProdutoService produtoService;
 
 	@Autowired
 	private VendasService vendasService;
 
+	@Autowired
+    private RelatorioService relatorioService;
+
 //	@Autowired
 //	private CategoriaService categoriaService;
 
 
 	@RequestMapping(value = "/produtos", method = RequestMethod.POST)
-	public ResponseEntity<?> criarProduto(@RequestParam String senha, @RequestBody Produto produto) {
+	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) {
 		if (produtoService.doesProdutoExist(produto)) {
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
 			}
@@ -52,7 +55,7 @@ public class AdminController {
 	
 
 	@RequestMapping(value = "/produtos/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateProduto(@RequestParam String senha, @PathVariable("id") Integer id, @RequestBody Produto produto) {
+	public ResponseEntity<?> updateProduto(@PathVariable("id") Integer id, @RequestBody Produto produto) {
 		if(produtoService.doesProdutoExist(id)) {
 			produto.mudaId(id);
 			produtoService.updateProduto(produto);
@@ -65,7 +68,7 @@ public class AdminController {
 	
 
 	@RequestMapping(value = "/produtos/{id}/lotes", method = RequestMethod.POST)
-	public ResponseEntity<?> criarLote(@RequestParam String senha, @PathVariable("id") Integer produtoId, @RequestBody Lote lote) {
+	public ResponseEntity<?> criarLote(@PathVariable("id") Integer produtoId, @RequestBody Lote lote) {
 
 		if (!produtoService.doesProdutoExist(produtoId)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,13 +84,13 @@ public class AdminController {
 
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.GET)
-	public ResponseEntity<?> getHistoricoVendas(@RequestParam String senha) {
+	public ResponseEntity<?> getHistoricoVendas() {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.POST)
-	public ResponseEntity<?> registraVenda(@RequestParam String senha, @RequestBody Venda venda) {
+	public ResponseEntity<?> registraVenda(@RequestBody Venda venda) {
 
 		boolean vendaBemSucedida = vendasService.realizaVenda(venda);
 		if(!vendaBemSucedida)
@@ -95,6 +98,14 @@ public class AdminController {
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
+
+    @RequestMapping(value= "/relatorio", method = RequestMethod.GET)
+    public ResponseEntity<?> geraRelatorio() {
+        Relatorio relatorio = relatorioService.geraRelatorio();
+        return new ResponseEntity<>(relatorio, HttpStatus.OK);
+    }
+
+
 
 
 	@RequestMapping(value= "/autentica", method = RequestMethod.GET)
