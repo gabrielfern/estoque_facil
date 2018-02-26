@@ -21,7 +21,7 @@ import com.ufcg.si1.service.VendasService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 	
 	private final String adminSenha = "banana";
@@ -62,26 +62,12 @@ public class AdminController {
 
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-	}
-	
-
-	@RequestMapping(value = "/produtos/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteProduct(@RequestParam String senha, @PathVariable("id") Integer id) {
-		if (_autentica(senha)) {
-			if (!produtoService.doesProdutoExist(id)) {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-			produtoService.deleteProdutoById(id);
-
-			return new ResponseEntity<Produto>(HttpStatus.OK);
-		}
 
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 
-	@RequestMapping(value = "/produtos/{id}/lote", method = RequestMethod.POST)
+	@RequestMapping(value = "/produtos/{id}/lotes", method = RequestMethod.POST)
 	public ResponseEntity<?> criarLote(@RequestParam String senha, @PathVariable("id") Integer produtoId, @RequestBody Lote lote) {
 		if (_autentica(senha)) {
 			if (!produtoService.doesProdutoExist(produtoId)) {
@@ -99,8 +85,9 @@ public class AdminController {
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.GET)
 	public ResponseEntity<?> getHistoricoVendas(@RequestParam String senha) {
-		if (_autentica(senha))
+		if (_autentica(senha)) {
 			return new ResponseEntity<>(HttpStatus.OK);
+		}
 
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
