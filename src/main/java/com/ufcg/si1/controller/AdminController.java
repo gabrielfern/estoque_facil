@@ -40,89 +40,66 @@ public class AdminController {
 
 	@RequestMapping(value = "/produtos", method = RequestMethod.POST)
 	public ResponseEntity<?> criarProduto(@RequestParam String senha, @RequestBody Produto produto) {
-		if (_autentica(senha)) {
-
-			if (produtoService.doesProdutoExist(produto)) {
+		if (produtoService.doesProdutoExist(produto)) {
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
 			}
 
-			produto.mudaSituacao(Situacao.INDISPONIVEL);
-			produtoService.saveProduto(produto);
+		produto.mudaSituacao(Situacao.INDISPONIVEL);
+		produtoService.saveProduto(produto);
 
-			return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
 	}
 	
 
 	@RequestMapping(value = "/produtos/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateProduto(@RequestParam String senha, @PathVariable("id") Integer id, @RequestBody Produto produto) {
-		if (_autentica(senha)) {
-		    if(produtoService.doesProdutoExist(id)) {
-		    	produto.mudaId(id);
-	            produtoService.updateProduto(produto);
-	            return new ResponseEntity<Produto>(produto, HttpStatus.OK);
-	        }
-
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(produtoService.doesProdutoExist(id)) {
+			produto.mudaId(id);
+			produtoService.updateProduto(produto);
+			return new ResponseEntity<Produto>(produto, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
 	}
 	
 
 	@RequestMapping(value = "/produtos/{id}/lotes", method = RequestMethod.POST)
 	public ResponseEntity<?> criarLote(@RequestParam String senha, @PathVariable("id") Integer produtoId, @RequestBody Lote lote) {
-		if (_autentica(senha)) {
-			if (!produtoService.doesProdutoExist(produtoId)) {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-			
-			produtoService.saveLote(produtoId, lote);
 
-			return new ResponseEntity<>(HttpStatus.CREATED);
+		if (!produtoService.doesProdutoExist(produtoId)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		produtoService.saveLote(produtoId, lote);
+
+		return new ResponseEntity<>(HttpStatus.CREATED);
+
+
+
 	}
 
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.GET)
 	public ResponseEntity<?> getHistoricoVendas(@RequestParam String senha) {
-		if (_autentica(senha)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.POST)
 	public ResponseEntity<?> registraVenda(@RequestParam String senha, @RequestBody Venda venda) {
-		if (_autentica(senha)) {
-			boolean vendaBemSucedida = vendasService.realizaVenda(venda);
-			if(!vendaBemSucedida)
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
 
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		boolean vendaBemSucedida = vendasService.realizaVenda(venda);
+		if(!vendaBemSucedida)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(HttpStatus.OK);
+
 	}
 
 
 	@RequestMapping(value= "/autentica", method = RequestMethod.GET)
 	public ResponseEntity<?> autentica(@RequestParam String senha) {
-		if (_autentica(senha))
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-	}
-
-
-	private boolean _autentica(String senha) {
-		if (this.adminSenha.equals(senha))
-			return true;
-		return false;
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 
