@@ -30,6 +30,7 @@ public class VendasService {
 				int qtdAVender = itemVenda.getQtd();
 				precoTotal += produtoService.calculaPreco(idProduct, qtdAVender);
 				produtoService.abateQtdProdutosLote(idProduct, qtdAVender);
+				itemVenda.setDetalhesProduto(produtoService.getDetalhesProduto(idProduct));
 			}
 			venda.setValorTotal(precoTotal);
 			this.registraVenda(venda);
