@@ -52,8 +52,8 @@ public class CategoriaService {
 	public boolean hasCategoria(Integer id) {
 		return categoriaRepository.findOne(id) != null;
 	}
-	
-	
+
+
 	public boolean hasCategoria(String nome) {
 		List<Categoria> categorias = categoriaRepository.findAll();
 		for (Categoria categoria : categorias) {
@@ -74,7 +74,10 @@ public class CategoriaService {
 		if (categoria == null) {
 			this.criaCategoria(produto.getCategoria());
 			categoria = this.getCategoria(produto.getCategoria().getNome());
+		} else {
+			this.saveCategoria(categoria.getId(), produto.getCategoria());
 		}
+
 		produto.mudaCategoria(categoria);
 	}
 }
