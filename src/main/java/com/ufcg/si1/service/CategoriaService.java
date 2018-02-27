@@ -76,7 +76,7 @@ public class CategoriaService {
 			categoria = this.getCategoria(produto.getCategoria().getNome());
 		} else {
 			this.saveCategoria(categoria.getId(), produto.getCategoria());
-			categoria = this.getCategoria(produto.getCategoria().getNome());
+			categoria = this.getCategoria(categoria.getId());
 		}
 
 		produto.mudaCategoria(categoria);
