@@ -12,21 +12,15 @@ import java.io.IOException;
 
 public class FiltroSenha extends GenericFilterBean {
 
-
-
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+    		throws IOException, ServletException {
 
         String senhaAdmin = "banana";
 
         HttpServletRequest req = (HttpServletRequest) request;
 
-
-
         String senha = req.getParameter("senha");
-
-
 
         if(senha == null || !senhaAdmin.equals(senha)) 
             ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -34,6 +28,4 @@ public class FiltroSenha extends GenericFilterBean {
             chain.doFilter(request, response);
 
     }
-
-
 }

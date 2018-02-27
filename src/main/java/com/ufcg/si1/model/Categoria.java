@@ -3,6 +3,7 @@ package com.ufcg.si1.model;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
 public class Categoria {
 
@@ -20,9 +21,11 @@ public class Categoria {
 	@OneToMany(mappedBy="categoria", targetEntity = Produto.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Produto> produtos;
 
+
 	public Categoria() {
 
 	}
+
 
 	public Categoria(List<Produto> produtos, String nome, double desconto) {
 		this.produtos = produtos;
@@ -30,9 +33,11 @@ public class Categoria {
 		this.desconto = desconto;
 	}
 
+
 	public List<Produto> pegaProdutosCategoria() {
 		return this.produtos;
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -62,5 +67,4 @@ public class Categoria {
 	public void setDesconto(float desconto) {
 		this.desconto = desconto;
 	}
-
 }
