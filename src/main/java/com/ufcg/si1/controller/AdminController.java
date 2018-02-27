@@ -47,6 +47,13 @@ public class AdminController {
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
 			}
 
+		Categoria categoria = categoriaService.getCategoria(produto.getCategoria().getNome());
+		if (categoria == null) {
+			categoriaService.criaCategoria(produto.getCategoria());
+			categoria = categoriaService.getCategoria(produto.getCategoria().getNome());
+		}
+		produto.mudaCategoria(categoria);
+
 		produto.mudaSituacao(Situacao.INDISPONIVEL);
 		produtoService.saveProduto(produto);
 
@@ -63,7 +70,6 @@ public class AdminController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
 	}
 
 

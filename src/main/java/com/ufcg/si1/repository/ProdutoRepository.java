@@ -14,9 +14,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer>{
 
 	  @Query(value="Select produto from Produto produto where produto.categoria=:categorianome")
 	  List<Produto> getProdutosCategoria(@Param("categorianome") String categoria);
-	  
-	  
+
+
 	  @Query(value="SELECT CASE WHEN COUNT(produto) > 0 THEN true ELSE false END FROM Produto produto WHERE produto.codigoBarra=:codigo")
 	  boolean hasProduct(@Param("codigo") String codigobarras);
-	  
 }

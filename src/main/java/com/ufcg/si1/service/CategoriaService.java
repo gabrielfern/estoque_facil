@@ -22,6 +22,12 @@ public class CategoriaService {
 	}
 
 
+	public void criaCategoria(Categoria categoria) {
+		categoriaRepository.save(categoria);
+	}
+
+
+
 	public void saveCategoria(Integer id, Categoria categoria) {
 		categoria.setId(id);
 		categoriaRepository.save(categoria);
@@ -33,9 +39,30 @@ public class CategoriaService {
 	}
 
 
+	public Categoria getCategoria(String nome) {
+		List<Categoria> categorias = categoriaRepository.findAll();
+		for (Categoria categoria : categorias) {
+			if (categoria.getNome().equals(nome))
+				return categoria;
+		}
+		return null;
+	}
+
+
 	public boolean hasCategoria(Integer id) {
 		return categoriaRepository.findOne(id) != null;
 	}
+	
+	
+	public boolean hasCategoria(String nome) {
+		List<Categoria> categorias = categoriaRepository.findAll();
+		for (Categoria categoria : categorias) {
+			if (categoria.getNome().equals(nome))
+				return true;
+		}
+		return false;
+	}
+
 
 	public List<Produto> getProdutosCategoria(Integer id) {
 		Categoria categoria = categoriaRepository.findOne(id);
