@@ -1,6 +1,5 @@
 package com.ufcg.si1.controller;
 
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;

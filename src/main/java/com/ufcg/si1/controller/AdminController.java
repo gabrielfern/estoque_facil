@@ -75,9 +75,6 @@ public class AdminController {
 		produtoService.saveLote(produtoId, lote);
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
-
-
-
 	}
 
 
