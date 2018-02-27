@@ -85,7 +85,7 @@ public class AdminController {
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.GET)
 	public ResponseEntity<?> getHistoricoVendas() {
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(vendasService.findAllVendas(), HttpStatus.OK);
 	}
 
 

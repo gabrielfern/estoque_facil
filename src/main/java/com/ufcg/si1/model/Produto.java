@@ -181,13 +181,13 @@ public class Produto {
 				qtdProdutos = 0;
 			}
 		}
-		
-		verificaDisponibilidadeProduto();
+		if(this.getSituacao() == Situacao.DISPONIVEL)
+			verificaDisponibilidadeProduto();
 	}
 
 	private void verificaDisponibilidadeProduto() {
-		// TODO Auto-generated method stub
-		
+		if(this.lotes.size() == 0)
+			this.mudaSituacao(Situacao.INDISPONIVEL);
 	}
 
 
