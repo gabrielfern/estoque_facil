@@ -47,12 +47,7 @@ public class AdminController {
 				return new ResponseEntity<>(HttpStatus.CONFLICT);
 			}
 
-		Categoria categoria = categoriaService.getCategoria(produto.getCategoria().getNome());
-		if (categoria == null) {
-			categoriaService.criaCategoria(produto.getCategoria());
-			categoria = categoriaService.getCategoria(produto.getCategoria().getNome());
-		}
-		produto.mudaCategoria(categoria);
+		categoriaService.certificaCategoria(produto);
 
 		produto.mudaSituacao(Situacao.INDISPONIVEL);
 		produtoService.saveProduto(produto);
@@ -65,6 +60,7 @@ public class AdminController {
 	public ResponseEntity<?> updateProduto(@PathVariable("id") Integer id, @RequestBody Produto produto) {
 		if(produtoService.doesProdutoExist(id)) {
 			produto.mudaId(id);
+			categoriaService.certificaCategoria(produto);
 			produtoService.updateProduto(produto);
 			return new ResponseEntity<Produto>(HttpStatus.OK);
 		}
