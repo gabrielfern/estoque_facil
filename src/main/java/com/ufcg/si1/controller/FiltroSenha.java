@@ -30,7 +30,7 @@ public class FiltroSenha extends GenericFilterBean {
 
 
         if(senha == null || !senhaAdmin.equals(senha)) 
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
          else
             chain.doFilter(request, response);
 
