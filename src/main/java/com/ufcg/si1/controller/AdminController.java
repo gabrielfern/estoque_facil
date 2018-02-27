@@ -109,7 +109,7 @@ public class AdminController {
 
 
 	@RequestMapping(value= "/autentica", method = RequestMethod.GET)
-	public ResponseEntity<?> autentica(@RequestParam String senha) {
+	public ResponseEntity<?> autentica() {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
