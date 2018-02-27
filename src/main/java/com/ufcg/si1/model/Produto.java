@@ -5,19 +5,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.ufcg.si1.model.enums.Situacao;
 
 
 @Entity
+@Table(name="produto")
 public class Produto {
 	
 	@Id
@@ -37,16 +31,15 @@ public class Produto {
 	@Column
 	private String fabricante;
 
-	@Column
-	//@ManyToOne(cascade = CascadeType.ALL)
-	private String categoria;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Categoria categoria;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Lote> lotes;
 
 	@Column
 	@Enumerated
-	public Situacao situacao;
+	private Situacao situacao;
 
 
 	public Produto() {
@@ -56,7 +49,7 @@ public class Produto {
 
 
 	public Produto(Integer id, String nome, String codigoBarra, String fabricante,
-			String nomeCategoria) {
+			Categoria nomeCategoria) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = new BigDecimal(0);
@@ -119,12 +112,12 @@ public class Produto {
 	}
 
 
-	public String getCategoria() {
+	public Categoria getCategoria() {
 		return this.categoria;
 	}
 
 
-	public void mudaCategoria(String categoria) {
+	public void mudaCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 	
@@ -191,8 +184,8 @@ public class Produto {
 	}
 
 
-	public int descontoCategoria() {
-		return 2;
+	public double descontoCategoria() {
+		return this.getCategoria().getDesconto();
 	}
 
 	@Override

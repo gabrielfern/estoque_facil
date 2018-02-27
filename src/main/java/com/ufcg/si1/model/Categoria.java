@@ -1,10 +1,9 @@
 package com.ufcg.si1.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
 public class Categoria {
 
 	@Id
@@ -16,8 +15,24 @@ public class Categoria {
 	private String nome;
 
 	@Column
-	private float desconto;
+	private double desconto;
 
+	@OneToMany(mappedBy="categoria", targetEntity = Produto.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Produto> produtos;
+
+	public Categoria() {
+
+	}
+
+	public Categoria(List<Produto> produtos, String nome, double desconto) {
+		this.produtos = produtos;
+		this.nome = nome;
+		this.desconto = desconto;
+	}
+
+	public List<Produto> pegaProdutosCategoria() {
+		return this.produtos;
+	}
 
 	public Integer getId() {
 		return id;
@@ -39,7 +54,7 @@ public class Categoria {
 	}
 
 
-	public float getDesconto() {
+	public double getDesconto() {
 		return desconto;
 	}
 
@@ -48,8 +63,4 @@ public class Categoria {
 		this.desconto = desconto;
 	}
 
-
-	public float calculaDesconto(float valor) {
-		return valor * desconto;
-	}
 }

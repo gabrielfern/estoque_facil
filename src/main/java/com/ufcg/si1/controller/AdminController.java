@@ -1,6 +1,7 @@
 package com.ufcg.si1.controller;
 
-import com.ufcg.si1.model.Relatorio;
+import com.ufcg.si1.model.*;
+import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.RelatorioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //import com.ufcg.si1.model.Categoria;
-import com.ufcg.si1.model.Lote;
-import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.model.Venda;
 import com.ufcg.si1.model.enums.Situacao;
 //import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.ProdutoService;
@@ -37,8 +35,8 @@ public class AdminController {
 	@Autowired
     private RelatorioService relatorioService;
 
-//	@Autowired
-//	private CategoriaService categoriaService;
+	@Autowired
+	private CategoriaService categoriaService;
 
 
 	@RequestMapping(value = "/produtos", method = RequestMethod.POST)
@@ -114,27 +112,29 @@ public class AdminController {
 	}
 
 
-//	@RequestMapping(value= "/categorias", method = RequestMethod.GET)
-//	public ResponseEntity<?> getCategorias(@RequestParam String senha) {
-//		if (_autentica(senha)) {
-//			return new ResponseEntity<>(categoriaService.getCategorias(), HttpStatus.OK);
-//		}
-//
-//		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//	}
-//
-//
-//	@RequestMapping(value= "/categorias/{id}", method = RequestMethod.PUT)
-//	public ResponseEntity<?> updateCategoria(@RequestParam String senha, @PathVariable Integer id, 
-//			@RequestBody Categoria categoria) {
-//		if (_autentica(senha)) {
-//			if (categoriaService.hasCategoria(id)) {
-//				categoriaService.saveCategoria(id, categoria);
-//				return new ResponseEntity<>(HttpStatus.OK);
-//			}
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//
-//		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//	}
+	@RequestMapping(value= "/categorias", method = RequestMethod.GET)
+	public ResponseEntity<?> getCategorias(@RequestParam String senha) {
+	    return new ResponseEntity<>(categoriaService.getCategorias(), HttpStatus.OK);
+	}
+
+
+	@RequestMapping(value= "/categorias/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateCategoria(@PathVariable Integer id,	@RequestBody Categoria categoria) {
+
+        if (categoriaService.hasCategoria(id)) {
+            categoriaService.saveCategoria(id, categoria);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+	}
+
+    @RequestMapping(value= "/categorias/{id}/produtos", method = RequestMethod.GET)
+    public ResponseEntity<?> getProdutosCategoria(@PathVariable Integer id) {
+
+        if(categoriaService.hasCategoria(id))
+            return new ResponseEntity<>(categoriaService.getProdutosCategoria(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
 }
