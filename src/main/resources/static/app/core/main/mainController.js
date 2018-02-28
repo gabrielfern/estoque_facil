@@ -66,7 +66,6 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
 
     $scope.pesquisarProdutoPorId = function(id) {
         // implementar
-        console.log(id)
         $http.get("/api/produtos" + id)
             .then(function successCallback(response) {
                 $scope.productsList = [
