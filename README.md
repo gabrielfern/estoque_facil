@@ -1,4 +1,7 @@
 # Estoque Facil - Sistema de Informação 1
 
-### Execução Local
-> gradle bootRun
+## Execução Local
+### unix script
+> ./gradlew bootRun
+### windows script
+> gradlew.bat bootRun
