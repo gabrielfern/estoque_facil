@@ -41,7 +41,7 @@ public class ItemVenda {
 	
 
 
-	public Produto getProduto() {
+	public Produto pegaProduto() {
 		return produto;
 	}
 

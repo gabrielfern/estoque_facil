@@ -83,3 +83,10 @@ ul.c-controls li a i {
 .flex-text {
 	flex-grow: 1;
 }
+
+.selecionado {
+    background-color: yellow;
+}
+.negrito {
+    font-weight: bold;
+}

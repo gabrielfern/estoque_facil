@@ -246,3 +246,44 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
         $scope.datePicker.opened = true;
     }
 });
+
+app.controller("SalesCtrl", function($scope, mainService, toastr) {
+
+    $scope.productsList = [];
+
+    mainService.getAllProducts().then( function(response) {
+        $scope.productsList = response.data;
+    });
+
+    $scope.verificarProdutoSelecionado = function(produtos) {
+        $scope.temProdutoSelecionado = produtos.some(function(produto) {
+            return produto.selecionado;
+        })
+    };
+
+    $scope.registraVenda = function(produtos) {
+        const produtosAVender = produtos.filter(function(produto) {
+            if(produto.selecionado) return produto;
+        });
+
+        const itensVenda = [];
+
+        for(let i = 0; i < produtosAVender.length; i ++) {
+            itensVenda.push({"produto": produtosAVender[i], "qtd": produtosAVender[i].qtdVenda});
+        }
+
+        const venda = {"itens": itensVenda};
+
+        mainService.registerSale(venda).then(function(response) {
+            $scope.verificarProdutoSelecionado($scope.productsList);
+            toastr.success('Venda registrada com sucesso!');
+            mainService.getAllProducts().then(function(response) {
+                $scope.productsList = response.data;
+            })
+        }).catch(function(error) {
+            $scope.verificarProdutoSelecionado($scope.productsList);
+            toastr.error('Problemas ao registrar a venda.');
+        })
+    }
+
+});
