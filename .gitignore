@@ -9,9 +9,6 @@ build
 .settings
 bin
 
-out/*
-.idea/*
-gradlew
-gradlew.bat
-.gitignore
+out
+.idea
 estoque_facil.iml
