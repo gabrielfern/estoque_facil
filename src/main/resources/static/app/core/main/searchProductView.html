@@ -15,9 +15,9 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="input-group c-search">
-            <input type="text" class="form-control" ng-model="productId" id="product-list-search">
+            <input type="text" class="form-control" ng-model="nomeProduto" id="product-list-search">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="pesquisarProdutoPorId(productId)">
+              <button class="btn btn-default" type="button" ng-disabled="true">
                 <span class="glyphicon glyphicon-search text-muted"></span>
               </button>
             </span>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="flex-row row">
-      <div class="col-xs-6 col-sm-5 col-lg-4" ng-repeat="product in productsList">
+      <div class="col-xs-6 col-sm-5 col-lg-4" ng-repeat="product in productsList | filter: {nome: nomeProduto}">
         <div class="thumbnail">
           <div class="caption">
             <h4 id="product-name">
