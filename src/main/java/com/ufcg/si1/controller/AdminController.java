@@ -90,7 +90,7 @@ public class AdminController {
 
 	@RequestMapping(value= "/vendas", method = RequestMethod.POST)
 	public ResponseEntity<?> registraVenda(@RequestBody Venda venda) {
-
+		System.out.println(venda);
 		boolean vendaBemSucedida = vendasService.realizaVenda(venda);
 		if(!vendaBemSucedida)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

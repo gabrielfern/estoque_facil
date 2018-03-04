@@ -24,7 +24,7 @@ public class VendasService {
 			List<ItemVenda> itensVenda = venda.getItens();
 			double precoTotal = 0.0;
 			for(ItemVenda itemVenda: itensVenda) {
-				Integer idProduct = itemVenda.getProduto().getId();
+				Integer idProduct = itemVenda.pegaProduto().getId();
 				int qtdAVender = itemVenda.getQtd();
 				precoTotal += produtoService.calculaPreco(idProduct, qtdAVender);
 				produtoService.abateQtdProdutosLote(idProduct, qtdAVender);
@@ -41,7 +41,7 @@ public class VendasService {
 	private boolean validaVenda(Venda venda) {
 		List<ItemVenda> itensVenda = venda.getItens();
 		for(ItemVenda itemVenda: itensVenda) {
-			Integer idProduct = itemVenda.getProduto().getId();
+			Integer idProduct = itemVenda.pegaProduto().getId();
 			int qtdAVender = itemVenda.getQtd();
 			if(!this.podeVender(idProduct, qtdAVender)) 
 				return false;

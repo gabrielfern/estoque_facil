@@ -152,7 +152,7 @@ public class Produto {
 	}
 
 
-	public int qtdProdutosDisponiveis() {
+	public int getQtdProdutosDisponiveis() {
 		
 		int qtdProdutos = 0;
 		if(this.getSituacao() == Situacao.DISPONIVEL) {
