@@ -23,6 +23,9 @@ public class Venda {
 	private List<ItemVenda> itens;
 
 	@Column
+	private String dataVenda;
+
+	@Column
 	private double valorTotal;
 	
 	public Venda() {
@@ -66,6 +69,21 @@ public class Venda {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	
+
+	public int getItensVendidos() {
+		int qtd = 0;
+		for(ItemVenda itemVenda: this.itens) {
+			qtd += itemVenda.getQtd();
+		}
+
+		return qtd;
+	}
+
+	public String getDataVenda() {
+		return dataVenda;
+	}
+
+	public void setDataVenda(String dataVenda) {
+		this.dataVenda = dataVenda;
+	}
 }

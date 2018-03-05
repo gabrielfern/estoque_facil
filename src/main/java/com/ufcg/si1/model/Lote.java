@@ -23,7 +23,7 @@ public class Lote {
     public Lote() {
     }
 
-    public Lote(Integer id, Produto produto, int numeroDeItens, String dataDeValidade) {
+    public Lote(Integer id, int numeroDeItens, String dataDeValidade) {
         this.id = id;
         this.numeroDeItens = numeroDeItens;
         this.dataDeValidade = dataDeValidade;

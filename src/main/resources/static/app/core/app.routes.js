@@ -5,7 +5,7 @@ app.config(function ($routeProvider) {
     }).when("/products",{
         templateUrl: "app/core/main/searchProductView.html",
         controller: "SearchProductCtrl"
-    }).when("/sales", {
+    }).when("/relatorio", {
         templateUrl: "app/core/main/salesView.html",
         controller: "SalesCtrl"
     })

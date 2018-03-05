@@ -12,9 +12,14 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
         return $http.post(BASE_SERVER_URL + "/admin/vendas", data);
     };
 
+    const _getAllRegistrosVenda = function() {
+        return $http.get(BASE_SERVER_URL + "/admin/vendas")
+    };
+
     return {
         getAllProducts: _getAllProducts,
         updateProductById: _updateProductById,
-        registerSale: _registerSale
+        registerSale: _registerSale,
+        getAllRegistrosVenda: _getAllRegistrosVenda
     };
 });

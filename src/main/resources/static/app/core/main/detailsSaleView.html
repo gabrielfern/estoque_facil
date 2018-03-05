@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Registrar Venda</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <h3>
+        Venda de número: {{venda.id}}
+        <br/>
+        Data de Venda: {{::venda.dataVenda | date:'medium'}}
+        <br/>
+        Valor Total: R$ {{venda.valorTotal}}
+    </h3>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Item Vendido</th>
+            <th>Quantidade</th>
+        </tr>
+        <tr ng-repeat="itemVenda in venda.itens">
+            <td>{{::itemVenda.detalhesProduto}}</td>
+            <td>{{::itemVenda.qtd}}</td>
+        </tr>
+    </table>
+    <hr/>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Fechar</button>
+</div>
