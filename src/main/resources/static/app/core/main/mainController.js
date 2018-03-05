@@ -247,7 +247,7 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
     }
 });
 
-app.controller("SalesCtrl", function($scope, mainService, toastr) {
+app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalInstance) {
 
     $scope.productsList = [];
 
@@ -272,18 +272,91 @@ app.controller("SalesCtrl", function($scope, mainService, toastr) {
             itensVenda.push({"produto": produtosAVender[i], "qtd": produtosAVender[i].qtdVenda});
         }
 
-        const venda = {"itens": itensVenda};
+        const venda = { "itens": itensVenda, dataVenda: new Date() };
 
         mainService.registerSale(venda).then(function(response) {
             $scope.verificarProdutoSelecionado($scope.productsList);
             toastr.success('Venda registrada com sucesso!');
             mainService.getAllProducts().then(function(response) {
                 $scope.productsList = response.data;
+                $uibModalInstance.close({
+                    status: 201
+                });
             })
         }).catch(function(error) {
             $scope.verificarProdutoSelecionado($scope.productsList);
             toastr.error('Problemas ao registrar a venda.');
         })
+    };
+
+    $scope.cancelarVenda = function(produtos) {
+        const produtosAVender = produtos.filter(function(produto) {
+            if(produto.selecionado) return produto;
+        });
+
+        for(let i = 0; i < produtosAVender.length; i ++)
+            produtosAVender[i].selecionado = false;
+
+        toastr.success('Venda cancelada com sucesso!');
+
+        $scope.cancel();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+});
+
+app.controller('SalesCtrl', function($scope, mainService, $uibModal) {
+
+    $scope.registrosVenda = [];
+
+    const loadRegistroVendaList = function() {
+        mainService.getAllRegistrosVenda().then(function(response) {
+            $scope.registrosVenda = response.data;
+        });
+    };
+
+    $scope.openDetalhesVenda = function(venda) {
+        let modalInstance = $uibModal.open({
+                ariaLabelledBy: 'Detalhes Venda',
+                ariaDescribedBy: 'Detalhes Venda.',
+                templateUrl: 'app/core/main/detailsSaleView.html',
+                controller: 'detalhesVendaCtrl',
+                resolve: {
+                    sale: function() {
+                        return angular.copy(venda);
+                    }
+                }
+            }
+        );
     }
 
+    loadRegistroVendaList();
+});
+
+app.controller("navbarController", function($scope, $uibModal) {
+
+    $scope.admin = localStorage.getItem("senha") != null;
+
+    $scope.openCriarVendaDialog = function() {
+
+        let modalInstance = $uibModal.open({
+                ariaLabelledBy: 'Registrar venda',
+                ariaDescribedBy: 'Registre uma venda.',
+                templateUrl: 'app/core/main/createSaleView.html',
+                controller: 'CriarSaleCtrl'
+            }
+        );
+
+    };
+});
+
+app.controller("detalhesVendaCtrl", function($scope, sale, $uibModalInstance) {
+    $scope.venda = sale;
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });

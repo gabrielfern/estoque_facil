@@ -15,7 +15,7 @@ public class VendasService {
 	@Autowired
 	private VendaRepository vendaRepository;
 	@Autowired
-	private ProdutoService produtoService;
+	private ProdutoService 	produtoService;
 	
 	public boolean realizaVenda(Venda venda) {
 		boolean vendaValida = this.validaVenda(venda);
@@ -29,6 +29,7 @@ public class VendasService {
 				precoTotal += produtoService.calculaPreco(idProduct, qtdAVender);
 				produtoService.abateQtdProdutosLote(idProduct, qtdAVender);
 				itemVenda.setDetalhesProduto(produtoService.getDetalhesProduto(idProduct));
+				itemVenda.setIdProduto(idProduct);
 			}
 			venda.setValorTotal(precoTotal);
 			this.registraVenda(venda);
@@ -70,4 +71,6 @@ public class VendasService {
 			receitaTotal += venda.getValorTotal();
 		return receitaTotal;
 	}
+
+
 }

@@ -2,32 +2,23 @@
     <div class="col-xs-12 col-sm-12 col-lg-12">
         <div class="thumbnail">
             <div class="caption">
-                <span class="title">Registrar Venda</span>
+                <span class="title">Registros Venda</span>
+                <br/>
                 <table class="table table-striped">
-                    <tr>
-                        <th></th>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Quantidade Disponível</th>
-                        <th>Disponibilidade</th>
-                        <th>Quantidade A Vender</th>
-                    </tr>
-                    <tr ng-class="{'selecionado negrito': product.selecionado}" ng-repeat="product in productsList">
-                        <td><input type="checkbox" ng-disabled="product.situacao === 'INDISPONIVEL'" ng-model="product.selecionado" ng-click="verificarProdutoSelecionado(productsList)"/></td>
-                        <td>{{::product.nome}}</td>
-                        <td ng-if="product.preco">R$ {{::product.preco}}</td>
-                        <td ng-if="!product.preco">R$ 0,00</td>
-                        <td>{{product.qtdProdutosDisponiveis}}</td>
-                        <td ng-if="product.situacao === 'DISPONIVEL'">Disponível</td>
-                        <td ng-if="product.situacao === 'INDISPONIVEL'">Em falta</td>
-                        <td><input type="number" step="0.01" class="form-control" placeholder="Quantidade a Vender" ng-model="product.qtdVenda"/></td>
-                    </tr>
+                        <tr>
+                        <th>Venda</th>
+                        <th>Data de Venda</th>
+                        <th>Itens Vendidos</th>
+                        <th>Preço Total</th>
+                        </tr>
+                        <tr ng-repeat="venda in registrosVenda">
+                            <td><a href="" ng-click="openDetalhesVenda(venda)">{{::venda.id}}</a></td>
+                            <td>{{::venda.dataVenda | date:'medium'}}</td>
+                            <td>{{::venda.itensVendidos}}</td>
+                            <td>R$ {{::venda.valorTotal}}</td>
+                        </tr>
                 </table>
                 <hr/>
-                <div class="col-lg-4" style="margin-left: auto; margin-right: auto;">
-                    <a class="btn btn-success" href="" ng-click="registraVenda(productsList)" ng-if="temProdutoSelecionado">Registrar Venda</a>
-                    <button class="btn btn-danger" ng-click="cancelarVenda(productsList)" ng-if="temProdutoSelecionado">Cancelar Venda</button>
-                </div>
             </div>
             <!-- /.caption -->
         </div>

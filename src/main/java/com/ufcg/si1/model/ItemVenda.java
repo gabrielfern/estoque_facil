@@ -22,6 +22,9 @@ public class ItemVenda {
 	private String detalhesProduto;
 
 	@Column
+	private Integer idProduto;
+
+	@Column
 	private int qtd;
 	
 	public ItemVenda() {
@@ -59,9 +62,6 @@ public class ItemVenda {
 	public void setQtd(int qtd) {
 		this.qtd = qtd;
 	}
-	
-	
-
 
 	public Integer getId() {
 		return id;
@@ -83,6 +83,13 @@ public class ItemVenda {
 	public String toString() {
 		return "ItemVenda [produto=" + produto + ", qtd=" + qtd + "]";
 	}
-	
-	
+
+
+	public Integer getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(Integer idProduto) {
+		this.idProduto = idProduto;
+	}
 }
