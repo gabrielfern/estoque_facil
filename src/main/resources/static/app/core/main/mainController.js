@@ -115,7 +115,6 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     // };
 
     loadProductsList();
-    loadProductsList();
 });
 
 app.controller("CreateProductCtrl", function ($uibModalInstance, $http, toastr) {
@@ -338,7 +337,7 @@ app.controller('SalesCtrl', function($scope, mainService, $uibModal) {
 
 app.controller("navbarController", function($scope, $uibModal) {
 
-    $scope.admin = localStorage.getItem("senha") != null;
+    $scope.admin = localStorage.getItem("senha") === 'banana';
 
     $scope.openCriarVendaDialog = function() {
 
@@ -351,10 +350,53 @@ app.controller("navbarController", function($scope, $uibModal) {
         );
 
     };
+
+    $scope.openLoginDialog = function() {
+        const modalInstance = $uibModal.open({
+            ariaLabelledBy: 'Realize o login',
+            ariaDescribedBy: 'Fazer login.',
+            templateUrl: 'app/core/main/loginView.html',
+            controller: 'loginCtrl'
+        });
+
+        modalInstance.result.then(function (result) {
+            if (result.status === 201) {
+                $scope.admin = true;
+                $scope.logged = true;
+            }
+        });
+    };
+
+    $scope.logout = function() {
+        localStorage.removeItem('senha');
+        $scope.logged = false;
+        $scope.admin = false;
+    }
 });
 
 app.controller("detalhesVendaCtrl", function($scope, sale, $uibModalInstance) {
     $scope.venda = sale;
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainService) {
+
+    $scope.logar = function(usuario) {
+      mainService.authenticate(angular.copy(usuario)).then(async () => {
+          await localStorage.setItem("senha", usuario.senha);
+          toastr.success('Login realizado com sucesso!');
+          $uibModalInstance.close({
+              status: 201
+          });
+      }).catch(() => {
+          toastr.error('Não foi possivel realizar o login. Cheque suas credenciais');
+          delete $scope.usuario;
+          $scope.loginForm.$setPristine();
+      })
+    };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');

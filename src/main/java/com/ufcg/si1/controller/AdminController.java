@@ -1,5 +1,6 @@
 package com.ufcg.si1.controller;
 
+import com.ufcg.si1.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufcg.si1.model.Categoria;
-import com.ufcg.si1.model.Lote;
-import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.model.Relatorio;
-import com.ufcg.si1.model.Venda;
 import com.ufcg.si1.model.enums.Situacao;
 import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.ProdutoService;
@@ -102,12 +98,6 @@ public class AdminController {
         Relatorio relatorio = relatorioService.geraRelatorio();
         return new ResponseEntity<>(relatorio, HttpStatus.OK);
     }
-
-
-	@RequestMapping(value= "/autentica", method = RequestMethod.GET)
-	public ResponseEntity<?> autentica() {
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 
 
 	@RequestMapping(value= "/categorias", method = RequestMethod.GET)
