@@ -16,10 +16,15 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
         return $http.get(BASE_SERVER_URL + "/admin/vendas")
     };
 
+    const _authenticate = function(data) {
+        return $http.post(BASE_SERVER_URL + "/autentica", data);
+    };
+
     return {
         getAllProducts: _getAllProducts,
         updateProductById: _updateProductById,
         registerSale: _registerSale,
-        getAllRegistrosVenda: _getAllRegistrosVenda
+        getAllRegistrosVenda: _getAllRegistrosVenda,
+        authenticate: _authenticate
     };
 });
