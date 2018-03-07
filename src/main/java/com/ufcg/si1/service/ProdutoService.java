@@ -93,11 +93,11 @@ public class ProdutoService {
 	}
 
 
-	public double calculaPreco(Integer idProduct, int qtdAVender) {
-		Produto produto = produtoRepository.getOne(idProduct);
+	public double calculaPreco(Integer idProduto, int qtdAVender) {
+		Produto produto = produtoRepository.getOne(idProduto);
 
-		double porcentagemfinalproduto = 1 - produto.descontoCategoria()/100;
-		return produto.getPreco()*porcentagemfinalproduto * qtdAVender;
+		double porcentagemFinalProduto = 1 - produto.descontoCategoria()/100;
+		return produto.getPreco()*porcentagemFinalProduto * qtdAVender;
 	}
 
 
