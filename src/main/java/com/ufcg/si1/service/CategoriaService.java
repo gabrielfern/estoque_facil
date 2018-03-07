@@ -66,14 +66,11 @@ public class CategoriaService {
 
 	public void certificaCategoria(Produto produto) {
 		Categoria categoria = this.getCategoria(produto.getCategoria().getNome());
-		if (categoria == null) {
-			this.criaCategoria(produto.getCategoria());
-			categoria = this.getCategoria(produto.getCategoria().getNome());
-		} else {
-			this.saveCategoria(categoria.getId(), produto.getCategoria());
-			categoria = this.getCategoria(categoria.getId());
-		}
 
+		if (categoria == null)
+			this.criaCategoria(produto.getCategoria());
+
+		categoria = this.getCategoria(produto.getCategoria().getNome());
 		produto.mudaCategoria(categoria);
 	}
 }
