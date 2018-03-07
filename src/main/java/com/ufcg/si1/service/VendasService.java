@@ -71,6 +71,4 @@ public class VendasService {
 			receitaTotal += venda.getValorTotal();
 		return receitaTotal;
 	}
-
-
 }

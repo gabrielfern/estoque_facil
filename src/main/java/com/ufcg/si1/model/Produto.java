@@ -1,6 +1,5 @@
 package com.ufcg.si1.model;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Produto {
 	private String nome;
 
 	@Column
-	private BigDecimal preco;
+	private double preco;
 
 	@Column
 	private String codigoBarra;
@@ -43,7 +42,7 @@ public class Produto {
 
 
 	public Produto() {
-		this.preco = new BigDecimal(0);
+		this.preco = 0;
 		this.lotes = new ArrayList<Lote>();
 	}
 
@@ -52,7 +51,7 @@ public class Produto {
 			Categoria nomeCategoria) {
 		this.id = id;
 		this.nome = nome;
-		this.preco = new BigDecimal(0);
+		this.preco = 0;
 		this.codigoBarra = codigoBarra;
 		this.fabricante = fabricante;
 		this.categoria = nomeCategoria;
@@ -72,12 +71,12 @@ public class Produto {
 	}
 
 
-	public BigDecimal getPreco() {
+	public double getPreco() {
 		return preco;
 	}
 
 
-	public void setPreco(BigDecimal preco) {
+	public void setPreco(double preco) {
 		this.preco = preco;
 	}
 

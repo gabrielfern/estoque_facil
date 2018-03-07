@@ -95,9 +95,9 @@ public class ProdutoService {
 
 	public double calculaPreco(Integer idProduct, int qtdAVender) {
 		Produto produto = produtoRepository.getOne(idProduct);
-		int PORCENTAGEM_TOTAL = 1;
-		double porcentagemfinalproduto = PORCENTAGEM_TOTAL - produto.descontoCategoria();
-		return (produto.getPreco().doubleValue() * porcentagemfinalproduto) * qtdAVender;
+
+		double porcentagemfinalproduto = 1 - produto.descontoCategoria()/100;
+		return produto.getPreco()*porcentagemfinalproduto * qtdAVender;
 	}
 
 

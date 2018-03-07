@@ -16,7 +16,7 @@ public class Categoria {
 	private String nome;
 
 	@Column
-	private double desconto;
+	private int desconto;
 
 
 	public Categoria() {
@@ -24,7 +24,7 @@ public class Categoria {
 	}
 
 
-	public Categoria(List<Produto> produtos, String nome, double desconto) {
+	public Categoria(List<Produto> produtos, String nome, int desconto) {
 		this.nome = nome;
 		this.desconto = desconto;
 	}
@@ -55,7 +55,7 @@ public class Categoria {
 	}
 
 
-	public void setDesconto(float desconto) {
+	public void setDesconto(int desconto) {
 		this.desconto = desconto;
 	}
 }
