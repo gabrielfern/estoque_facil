@@ -1,5 +1,6 @@
 package com.ufcg.si1.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,16 @@ public class ProdutoService {
 	@Autowired
 	ProdutoRepository produtoRepository;
 
+
 	public List<Produto> findAllProdutos() {
 		return produtoRepository.findAll();
 	}
 
+
 	public void saveProduto(Produto produto) {
 		produtoRepository.save(produto);
 	}
+
 
 	public void updateProduto(Produto produto) {
 		if(produto.getSituacao() == null) {
@@ -32,30 +36,37 @@ public class ProdutoService {
 		produtoRepository.save(produto);
 	}
 
+
 	public void deleteProdutoById(Integer id) {
 		produtoRepository.delete(id);
 	}
+
 
 	public long size() {
 		return produtoRepository.count();
 	}
 
+
 	public void deleteAllProducts() {
 		produtoRepository.deleteAll();
 	}
+
 
 	public Produto findById(Integer id) {
 		return produtoRepository.findOne(id);
 	}
 
+
 	public boolean doesProdutoExist(Produto produto) {
 		return produtoRepository.hasProduct(produto.getCodigoBarra());
 	}
 	
+
 	public boolean doesProdutoExist(Integer id) {
 		return produtoRepository.exists(id);
 	}
 	
+
 	public Lote saveLote(Integer idProduct, Lote lote) {
 		Produto productToAddLote = produtoRepository.findOne(idProduct);
 		productToAddLote.saveLote(lote);
@@ -63,20 +74,24 @@ public class ProdutoService {
 		return lote;
 	}
 
+
 	public List<Lote> getLotesProduto(Integer produtoId) {
 		Produto produto = produtoRepository.getOne(produtoId);
 		return produto.getLote();
 	}
 	
+
 	public int getQtdProdutosLote(Integer id) {
 		return produtoRepository.getOne(id).getQtdProdutosDisponiveis();
 	}
 	
+
 	public void abateQtdProdutosLote(Integer produtoId, int qtd) {
 		Produto produto = produtoRepository.getOne(produtoId);
 		produto.abateQtdProdutosLote(qtd);
 		produtoRepository.save(produto);
 	}
+
 
 	public double calculaPreco(Integer idProduct, int qtdAVender) {
 		Produto produto = produtoRepository.getOne(idProduct);
@@ -85,9 +100,22 @@ public class ProdutoService {
 		return (produto.getPreco().doubleValue() * porcentagemfinalproduto) * qtdAVender;
 	}
 
+
 	public String getDetalhesProduto(Integer idProduct) {
 		Produto produto = produtoRepository.getOne(idProduct);
 		return "Nome: " + produto.getNome() + ", Fabricante: " + produto.getFabricante();
 	}
 
+
+	public List<Produto> getProdutosEmFalta(int qtd) {
+		List<Produto> produtos = produtoRepository.findAll();
+		List<Produto> produtosEmFalta = new ArrayList<>();
+
+		for (Produto produto: produtos) {
+			if (produto.getQtdProdutosDisponiveis() <= qtd)
+				produtosEmFalta.add(produto);
+		}
+
+		return produtosEmFalta;
+	}
 }

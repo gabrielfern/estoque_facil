@@ -116,4 +116,17 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
+
+
+	@RequestMapping(value = "/produtos/falta", method = RequestMethod.GET)
+	public ResponseEntity<?> produtosEmFalta(@RequestParam(defaultValue = "0") int qtd) {
+		return new ResponseEntity<>(produtoService.getProdutosEmFalta(qtd), HttpStatus.OK);
+	}
+
+
+	// TODO
+	@RequestMapping(value = "/produtos/vencidos", method = RequestMethod.GET)
+	public ResponseEntity<?> produtosVencidos(@RequestParam(defaultValue = "hoje") String data) {
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
