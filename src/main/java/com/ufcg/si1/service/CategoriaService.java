@@ -64,11 +64,6 @@ public class CategoriaService {
 	}
 
 
-	public List<Produto> getProdutosCategoria(Integer id) {
-		Categoria categoria = categoriaRepository.findOne(id);
-		return categoria.pegaProdutosCategoria();
-	}
-	
 	public void certificaCategoria(Produto produto) {
 		Categoria categoria = this.getCategoria(produto.getCategoria().getNome());
 		if (categoria == null) {

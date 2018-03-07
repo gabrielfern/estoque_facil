@@ -116,14 +116,4 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
-
-
-    @RequestMapping(value= "/categorias/{id}/produtos", method = RequestMethod.GET)
-    public ResponseEntity<?> getProdutosCategoria(@PathVariable Integer id) {
-
-        if(categoriaService.hasCategoria(id))
-            return new ResponseEntity<>(categoriaService.getProdutosCategoria(id), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-    }
 }
