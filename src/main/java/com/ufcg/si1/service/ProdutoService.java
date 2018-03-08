@@ -126,10 +126,10 @@ public class ProdutoService {
 		
 		List<Lote> lotes = produto.getLotes();
 		for (Lote lote: lotes) {
-//			if (data.compareTo(lote.getDataDeValidade()) >= 0) {
-	//			vencido = true;
-		//		break;
-			//}
+			if (data.compareTo(lote.getDataDeValidade()) >= 0) {
+				vencido = true;
+				break;
+			}
 		}
 
 		return vencido;
