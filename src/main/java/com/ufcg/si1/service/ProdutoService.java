@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufcg.si1.Data;
+import com.ufcg.si1.model.Data;
 import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.repository.ProdutoRepository;
@@ -123,15 +123,13 @@ public class ProdutoService {
 
 	private boolean verificaProdutoVencido(Data data, Produto produto) throws Exception {
 		boolean vencido = false;
-		Data dataVencimento;
 		
 		List<Lote> lotes = produto.getLotes();
 		for (Lote lote: lotes) {
-			dataVencimento = new Data(lote.getDataDeValidade());
-			if (data.compareTo(dataVencimento) >= 0) {
-				vencido = true;
-				break;
-			}
+//			if (data.compareTo(lote.getDataDeValidade()) >= 0) {
+	//			vencido = true;
+		//		break;
+			//}
 		}
 
 		return vencido;

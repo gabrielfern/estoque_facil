@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufcg.si1.Data;
+import com.ufcg.si1.model.Data;
 import com.ufcg.si1.model.Categoria;
 import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;

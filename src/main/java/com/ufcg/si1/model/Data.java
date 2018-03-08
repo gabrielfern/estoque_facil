@@ -1,9 +1,26 @@
-package com.ufcg.si1;
+package com.ufcg.si1.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Data implements Comparable<Data> {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "DATA_ID")
+    private Integer id;
+
+	@Column
 	private int dia;
+
+	@Column
 	private int mes;
+
+	@Column
 	private int ano;
 	
 	/**
@@ -36,6 +53,14 @@ public class Data implements Comparable<Data> {
 		this.ano = ano;
 	}
 	
+	public Data() {
+		
+	}
+
+    public Integer getId() {
+        return id;
+    }
+
 	/**
 	 * Acesso ao atributo dia de uma
 	 * data.
@@ -64,6 +89,22 @@ public class Data implements Comparable<Data> {
 	 */
 	public int getAno() {
 		return this.ano;
+	}
+	
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
+
+	public void setAno(int ano) {
+		this.ano = ano;
 	}
 
 	/**

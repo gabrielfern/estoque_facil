@@ -214,13 +214,15 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
     };
 
     $scope.submit = function (dataDeValidade, numeroDeItens) {
-
         //adicionar
         var lote = {
-            dataDeValidade: dataDeValidade.getDay() + "/" + (dataDeValidade.getMonth() + 1) + dataDeValidade.getFullYear(),
+            dataDeValidade: {
+                dia: dataDeValidade.getDay(),
+                mes: dataDeValidade.getMonth(),
+                ano: dataDeValidade.getFullYear()
+            },
             numeroDeItens: numeroDeItens
         }
-
         $http.post("/api/admin/produtos/" + produto.id + "/lotes", JSON.stringify(lote))
             .then(function success(response) {
                 console.log(response)
