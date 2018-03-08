@@ -1,18 +1,12 @@
 package com.ufcg.si1.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ufcg.si1.Data;
 import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.repository.ProdutoRepository;
@@ -84,7 +78,7 @@ public class ProdutoService {
 
 	public List<Lote> getLotesProduto(Integer produtoId) {
 		Produto produto = produtoRepository.getOne(produtoId);
-		return produto.getLote();
+		return produto.getLotes();
 	}
 	
 
@@ -119,34 +113,40 @@ public class ProdutoService {
 		List<Produto> produtosEmFalta = new ArrayList<>();
 
 		for (Produto produto: produtos) {
-			if (produto.getQtdProdutosDisponiveis() <= qtd)
+			if (produto.getQtdProdutosDisponiveis() < qtd)
 				produtosEmFalta.add(produto);
 		}
 
 		return produtosEmFalta;
 	}
-	private boolean verificaProdutoVencido(Produto produto) throws ParseException {
 
-		List<Produto> produtos = produtoRepository.findAll();
 
-		String dataAtual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-
-		Date atualData = new SimpleDateFormat("dd/MM/yyyy").parse(dataAtual);
-
-		boolean tdsLotesVencidos = true;
-		List<Lote> lotesProduto = produto.getLote();
-		Iterator<Lote> it = lotesProduto.iterator();
-		Date dataLote;
-		while (it.hasNext() && tdsLotesVencidos) {
-		    Lote lote = it.next();
-			dataLote = new SimpleDateFormat("dd/MM/yyyy").parse(lote.getDataDeValidade());
-			if (atualData.before(dataLote))
-				tdsLotesVencidos = false;
-
+	private boolean verificaProdutoVencido(Data data, Produto produto) throws Exception {
+		boolean vencido = false;
+		Data dataVencimento;
+		
+		List<Lote> lotes = produto.getLotes();
+		for (Lote lote: lotes) {
+			dataVencimento = new Data(lote.getDataDeValidade());
+			if (data.compareTo(dataVencimento) >= 0) {
+				vencido = true;
+				break;
+			}
 		}
 
-		return tdsLotesVencidos;
-
+		return vencido;
 	}
 
+
+	public List<Produto> getProdutosVencidos(Data data) throws Exception {
+		List<Produto> produtos = produtoRepository.findAll();
+		List<Produto> produtosVencidos = new ArrayList<>();
+
+		for (Produto produto: produtos) {
+			if (verificaProdutoVencido(data, produto))
+				produtosVencidos.add(produto);
+		}
+
+		return produtosVencidos;
+	}
 }

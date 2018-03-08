@@ -1,6 +1,8 @@
 package com.ufcg.si1.controller;
 
-import com.ufcg.si1.model.*;
+
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufcg.si1.Data;
+import com.ufcg.si1.model.Categoria;
+import com.ufcg.si1.model.Lote;
+import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.model.Relatorio;
+import com.ufcg.si1.model.Venda;
 import com.ufcg.si1.model.enums.Situacao;
 import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.ProdutoService;
@@ -119,14 +127,17 @@ public class AdminController {
 
 
 	@RequestMapping(value = "/produtos/falta", method = RequestMethod.GET)
-	public ResponseEntity<?> produtosEmFalta(@RequestParam(defaultValue = "0") int qtd) {
+	public ResponseEntity<?> produtosEmFalta(@RequestParam(defaultValue = "15") int qtd) {
 		return new ResponseEntity<>(produtoService.getProdutosEmFalta(qtd), HttpStatus.OK);
 	}
 
 
-	// TODO
 	@RequestMapping(value = "/produtos/vencidos", method = RequestMethod.GET)
-	public ResponseEntity<?> produtosVencidos(@RequestParam(defaultValue = "hoje") String data) {
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> produtosVencidos(@RequestParam(defaultValue = "1") int meses) throws Exception {
+		LocalDateTime hoje = LocalDateTime.now();
+		Data data = new Data(hoje.getDayOfMonth(), hoje.getMonthValue(), hoje.getYear());
+		data.addMeses(meses);
+
+		return new ResponseEntity<>(produtoService.getProdutosVencidos(data), HttpStatus.OK);
 	}
 }

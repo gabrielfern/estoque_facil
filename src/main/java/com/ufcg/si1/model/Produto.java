@@ -121,12 +121,12 @@ public class Produto {
 	}
 	
 
-	public List<Lote> getLote() {
+	public List<Lote> getLotes() {
 		return lotes;
 	}
 
 
-	public void setLote(List<Lote> lote) {
+	public void setLotes(List<Lote> lote) {
 		this.lotes = lote;
 	}
 	
@@ -155,14 +155,14 @@ public class Produto {
 		
 		int qtdProdutos = 0;
 		if(this.getSituacao() == Situacao.DISPONIVEL) {
-			for(Lote lote: this.getLote())
+			for(Lote lote: this.getLotes())
 				qtdProdutos += lote.getNumeroDeItens();
 		}
 		return qtdProdutos;
 	}
 	
 	public void abateQtdProdutosLote(int qtdProdutos) {
-		Iterator<Lote> it = this.getLote().iterator();
+		Iterator<Lote> it = this.getLotes().iterator();
 		while(it.hasNext() && qtdProdutos > 0) {
 			Lote lote = it.next();
 			if(lote.getNumeroDeItens() <= qtdProdutos) {
