@@ -1,5 +1,12 @@
 package com.ufcg.si1.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,4 +125,28 @@ public class ProdutoService {
 
 		return produtosEmFalta;
 	}
+	private boolean verificaProdutoVencido(Produto produto) throws ParseException {
+
+		List<Produto> produtos = produtoRepository.findAll();
+
+		String dataAtual = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+
+		Date atualData = new SimpleDateFormat("dd/MM/yyyy").parse(dataAtual);
+
+		boolean tdsLotesVencidos = true;
+		List<Lote> lotesProduto = produto.getLote();
+		Iterator<Lote> it = lotesProduto.iterator();
+		Date dataLote;
+		while (it.hasNext() && tdsLotesVencidos) {
+		    Lote lote = it.next();
+			dataLote = new SimpleDateFormat("dd/MM/yyyy").parse(lote.getDataDeValidade());
+			if (atualData.before(dataLote))
+				tdsLotesVencidos = false;
+
+		}
+
+		return tdsLotesVencidos;
+
+	}
+
 }
