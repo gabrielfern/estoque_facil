@@ -121,9 +121,9 @@ public class ProdutoService {
 	}
 
 
-	private boolean verificaProdutoVencido(Data data, Produto produto) throws Exception {
+	private boolean verificaProdutoVencido(Data data, Produto produto) {
 		boolean vencido = false;
-		
+
 		List<Lote> lotes = produto.getLotes();
 		for (Lote lote: lotes) {
 			if (data.compareTo(lote.getDataDeValidade()) >= 0) {
@@ -136,7 +136,7 @@ public class ProdutoService {
 	}
 
 
-	public List<Produto> getProdutosVencidos(Data data) throws Exception {
+	public List<Produto> getProdutosVencidos(Data data) {
 		List<Produto> produtos = produtoRepository.findAll();
 		List<Produto> produtosVencidos = new ArrayList<>();
 
