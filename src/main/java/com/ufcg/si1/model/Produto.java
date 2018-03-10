@@ -161,8 +161,20 @@ public class Produto {
 
 		return qtdProdutos;
 	}
+  
+  
+	public void excluiLotesVencidos() {
+		Iterator<Lote> it = this.lotes.iterator();
+		Lote lote;
 
-
+		while (it.hasNext()) {
+			lote = it.next();
+			if (lote.vencido())
+				it.remove();
+		}
+	}
+  
+  
 	public void abateQtdProdutosLote(int qtdProdutos) {
 		Iterator<Lote> it = this.getLotes().iterator();
 		while(it.hasNext() && qtdProdutos > 0) {

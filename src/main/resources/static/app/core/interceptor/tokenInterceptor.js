@@ -9,6 +9,7 @@ angular.module("efApp").factory("tokenInterceptor", function($q, $location) {
         },
 
         responseError: function(rejection) {
+            console.log(rejection.message);
             return $q.reject(rejection);
         }
     };

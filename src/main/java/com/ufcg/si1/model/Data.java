@@ -109,6 +109,10 @@ public class Data implements Comparable<Data> {
 		this.ano = ano;
 	}
 
+	public String getData() {
+		return this.toString();
+	}
+
 	/**
 	 * Incrementa uma data ja existente,
 	 * atualizando a data dada a quantidade de meses passados

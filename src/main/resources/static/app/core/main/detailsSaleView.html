@@ -4,12 +4,14 @@
 <div class="modal-body" id="modal-body">
     <h3>
         Venda de número: {{venda.id}}
-        <br/>
-        Data de Venda: {{::venda.dataVenda | date:'medium'}}
-        <br/>
+    </h3>
+    <h3>
+        Data de Venda: {{::venda.dataVenda | date:'mediumDate'}}
+    </h3>
+    <h3>
         Valor Total: R$ {{venda.valorTotal}}
     </h3>
-
+    <br/>
     <table class="table table-striped">
         <tr>
             <th>Item Vendido</th>
