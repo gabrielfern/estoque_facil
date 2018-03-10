@@ -317,6 +317,7 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
 app.controller("navbarController", function($scope, $uibModal, mainService, toastr) {
 
     $scope.admin = localStorage.getItem("senha") === 'banana';
+    $scope.logged = localStorage.getItem("logado") !== 'false';
 
     $scope.openCriarVendaDialog = function() {
 
@@ -378,6 +379,7 @@ app.controller("navbarController", function($scope, $uibModal, mainService, toas
 
     $scope.logout = function() {
         localStorage.removeItem('senha');
+        localStorage.setItem('logado', 'false');
         $scope.logged = false;
         $scope.admin = false;
         $location.path('/');
@@ -393,10 +395,11 @@ app.controller("detalhesVendaCtrl", function($scope, sale, $uibModalInstance) {
 });
 
 app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainService) {
-
+    
     $scope.logar = function(usuario) {
       mainService.authenticate(angular.copy(usuario)).then(async () => {
           await localStorage.setItem("senha", usuario.senha);
+          await localStorage.setItem('logado', 'true');
           toastr.success('Login realizado com sucesso!');
           $uibModalInstance.close({
               status: 201
