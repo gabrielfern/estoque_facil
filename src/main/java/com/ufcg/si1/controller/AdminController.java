@@ -1,8 +1,6 @@
 package com.ufcg.si1.controller;
 
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -133,9 +131,8 @@ public class AdminController {
 
 
 	@RequestMapping(value = "/produtos/vencidos", method = RequestMethod.GET)
-	public ResponseEntity<?> produtosVencidos(@RequestParam(defaultValue = "1") int meses) throws Exception {
-		LocalDateTime hoje = LocalDateTime.now();
-		Data data = new Data(hoje.getDayOfMonth(), hoje.getMonthValue(), hoje.getYear());
+	public ResponseEntity<?> produtosVencidos(@RequestParam(defaultValue = "1") int meses) {
+		Data data = Data.dataHoje();
 		data.addMeses(meses);
 
 		return new ResponseEntity<>(produtoService.getProdutosVencidos(data), HttpStatus.OK);

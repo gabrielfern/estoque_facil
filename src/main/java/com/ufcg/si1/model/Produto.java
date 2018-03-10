@@ -152,15 +152,26 @@ public class Produto {
 
 
 	public int getQtdProdutosDisponiveis() {
-		
 		int qtdProdutos = 0;
-		if(this.getSituacao() == Situacao.DISPONIVEL) {
+
+		if (this.getSituacao() == Situacao.DISPONIVEL) {
+			this.excluirLotesVencidos();
 			for(Lote lote: this.getLotes())
 				qtdProdutos += lote.getNumeroDeItens();
+
 		}
+
 		return qtdProdutos;
 	}
-	
+
+
+	public void excluirLotesVencidos() {
+		for (Lote lote: this.getLotes())
+			if (lote.vencido())
+				this.lotes.remove(lote);
+	}
+
+
 	public void abateQtdProdutosLote(int qtdProdutos) {
 		Iterator<Lote> it = this.getLotes().iterator();
 		while(it.hasNext() && qtdProdutos > 0) {
@@ -186,6 +197,7 @@ public class Produto {
 	public double descontoCategoria() {
 		return this.getCategoria().getDesconto();
 	}
+
 
 	@Override
 	public int hashCode() {

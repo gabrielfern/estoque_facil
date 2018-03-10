@@ -1,5 +1,7 @@
 package com.ufcg.si1.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -178,7 +180,7 @@ public class Data implements Comparable<Data> {
 	 * (disso vem o "AMD").
 	 * 
 	 */
-	public String toStringAMD() { //no formato aaaa-mm-dd
+	public String toStringAMD() {
 		if(dia<10 && mes<10) return ano + "-" + "0" + mes + "-" + "0" + dia;
 		if(dia<10) return ano + "-" + mes + "-" + "0" + dia;
 		if(mes<10) return ano + "-" + "0" + mes + "-" + dia;
@@ -199,5 +201,11 @@ public class Data implements Comparable<Data> {
 		if(this.dia > date.getDia()) return 1;
 		if(this.dia < date.getDia()) return -1;
 		return 0;
+	}
+
+
+	public static Data dataHoje() {
+		LocalDateTime hoje = LocalDateTime.now();
+		return new Data(hoje.getDayOfMonth(), hoje.getMonthValue(), hoje.getYear());
 	}
 }
