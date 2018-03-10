@@ -153,21 +153,26 @@ public class Produto {
 
 	public int getQtdProdutosDisponiveis() {
 		int qtdProdutos = 0;
+		this.verificaDisponibilidadeProduto();
 
 		if (this.getSituacao() == Situacao.DISPONIVEL) {
-			this.excluirLotesVencidos();
 			for(Lote lote: this.getLotes())
 				qtdProdutos += lote.getNumeroDeItens();
-
 		}
 
 		return qtdProdutos;
 	}
 
 
-	public void excluirLotesVencidos() {
+	public void excluiLotesVencidos() {
 		for (Lote lote: this.getLotes())
 			if (lote.vencido())
+				this.lotes.remove(lote);
+	}
+	
+	public void excluiLotesVazios() {
+		for (Lote lote: this.getLotes())
+			if (lote.getNumeroDeItens() <= 1)
 				this.lotes.remove(lote);
 	}
 
@@ -189,7 +194,10 @@ public class Produto {
 	}
 
 	private void verificaDisponibilidadeProduto() {
-		if(this.lotes.size() == 0)
+		this.excluiLotesVencidos();
+		this.excluiLotesVazios();
+		
+		if (this.lotes.size() == 0)
 			this.mudaSituacao(Situacao.INDISPONIVEL);
 	}
 
