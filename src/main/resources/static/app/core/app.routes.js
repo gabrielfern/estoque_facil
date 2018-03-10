@@ -8,6 +8,9 @@ app.config(function ($routeProvider) {
     }).when("/relatorio", {
         templateUrl: "app/core/main/salesView.html",
         controller: "SalesCtrl"
+    }).when("/notificacoes", {
+        templateUrl: "app/core/main/notificationsView.html",
+        controller: "NotificationsCtrl"
     })
     //     .when("/products/create-product",{
     //     templateUrl: "view/createProductView.html",

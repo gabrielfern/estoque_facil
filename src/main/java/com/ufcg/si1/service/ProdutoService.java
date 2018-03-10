@@ -121,7 +121,7 @@ public class ProdutoService {
 	}
 
 
-	private boolean verificaProdutoVencido(Data data, Produto produto) throws Exception {
+	private boolean verificaProdutoVencido(Data data, Produto produto) {
 		boolean vencido = false;
 		
 		List<Lote> lotes = produto.getLotes();

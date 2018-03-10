@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="flex-row row">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="thumbnail">
+                <div class="caption">
+                    <span class="title">Produtos com quantidade baixa no estoque.</span>
+                    <br/>
+                    <div class="flex-row row">
+                        <div class="col-sm col-sm-3" ng-repeat="produto in produtosEmFalta">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <h4 id="product-name">
+                                        <a href >{{ produto.nome }}</a>
+                                    </h4>
+                                    <h5 id="product-talk">
+                                        <div>
+                                            Produtos restantes: {{ produto.qtdProdutosDisponiveis }}
+                                        </div>
+                                    </h5>
+                                </div>
+                                <!-- /.caption -->
+                            </div>
+                            <!-- /.thumbnail -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-row row">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="thumbnail">
+                <div class="caption">
+                    <span class="title">Produtos com lote perto do vencimento abaixo de 30 dias.</span>
+                    <br/>
+                    <div class="flex-row row">
+                        <div class="col-sm col-sm-3" ng-repeat="produto in produtosPertoVencimento">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <h4 id="produto-name">
+                                        <a href >{{ produto.nome }}</a>
+                                    </h4>
+                                    <h5 id="produto-talk">
+                                        <div>
+                                            Fabricante: {{ produto.fabricante }}
+                                        </div>
+                                    </h5>
+                                </div>
+                                <!-- /.caption -->
+                            </div>
+                            <!-- /.thumbnail -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
