@@ -531,14 +531,12 @@ app.controller("CategoriasCtrl", function($scope, mainService) {
     $scope.categorias = []
     
     mainService.getCategorias().then((response) => {
-        $scope.categorias = response.data;
+        $scope.categorias = response.data
+
+        $scope.$watch('categorias', function(depois, antes) {
+        	for (let i = 0; i < depois.length; i++)
+        		if (depois[i].desconto != antes[i].desconto)
+        			mainService.putCategoria(depois[i].id, JSON.stringify(depois[i]))
+        }, true)
     })
-    
-    $scope.$watch('categorias', function() {
-    	for (categoria of $scope.categorias) {
-    		mainService.putCategoria(categoria.id, JSON.stringify(categoria))
-    	}
-    }, true)
-    
-    global = $scope
 })
