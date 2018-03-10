@@ -30,6 +30,12 @@
       <div class="col-xs-6 col-sm-5 col-lg-4" ng-repeat="product in productsList | filter: {nome: nomeProduto}">
         <div class="thumbnail">
           <div class="caption">
+            <div ng-if="user">
+              <input type="checkbox" ng-attr-id="{{'cd' + product.nome}}" ng-model="product.select" style="display: none;" ng-disabled="product.situacao === 'INDISPONIVEL'"/>
+              <label style="position: relative; margin: 1px 200px auto auto;"  ng-attr-for="{{'cd' +product.nome}}">
+                <i class="glyphicon" ng-class="{'glyphicon-unchecked text-info': !product.select, 'glyphicon-check text-info': product.select}" style="font-size: 24px"></i>
+              </label>
+            </div>
             <h4 id="product-name">
               <a href="#">{{product.nome}}</a>
             </h4>
@@ -49,6 +55,11 @@
                 Em falta
               </div>
             </h5>
+            <div class="pull-right" ng-if="product.select">
+              <br/>
+              Produtos disponíveis: {{product.qtdProdutosDisponiveis}}
+              <input type="number" step="0.01" class="form-control" placeholder="Quantidade a Reservar" ng-model="product.qtdReservar"/>
+            </div>
             <div class="btn-group" uib-dropdown ng-if="admin">
               <button id="single-button" type="button" class="btn btn-default pull-right" uib-dropdown-toggle>
                 <span class="glyphicon glyphicon-cog"></span><span class="caret"></span>
@@ -58,11 +69,17 @@
                 <li role="menuitem"><a ng-click="openCriarLoteDialog(product)">Criar lote</a></li>
               </ul>
             </div>
-
           </div>
           <!-- /.caption -->
         </div>
         <!-- /.thumbnail -->
+      </div>
+      <div class="col-lg-12 text-center" ng-show="isProductSelect(productsList)">
+        <br/>
+        <br/>
+        <div>
+          <button class="btn btn-success btn-xl" ng-click="reservaProdutos(productsList)" ><i class="glyphicon glyphicon-ok" aria-hidden="true"></i> Reservar produtos</button>
+        </div>
       </div>
     </div>
     <!-- /.flex-row  -->

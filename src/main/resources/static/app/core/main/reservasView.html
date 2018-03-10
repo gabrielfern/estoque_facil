@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="flex-row row">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="thumbnail">
+                <div class="caption">
+                    <span class="title">Reservas</span>
+                    <br/>
+                    <table class="table table-striped">
+                        <tr>
+                            <th><a href ng-click="ordenarReservaPor('id')">Reserva</a></th>
+                            <th><a href ng-click="ordenarReservaPor('dataVenda')">Data da Reserva</a></th>
+                            <th><a href ng-click="ordenarReservaPor('itensvendidos')">Itens Reservados</a></th>
+                            <th><a href ng-click="ordenarReservaPor('valorTotal')">Preço Total</a></th>
+                        </tr>
+                        <tr ng-repeat="reserva in reservas | orderBy:criterioDeOrdenacaoReserva:direcaoDaOrdenacaoReserva">
+                            <td><a href="" ng-click="openDetalhesReserva(reserva)">{{::reserva.id}}</a></td>
+                            <td>{{::reserva.dataReserva | date:'mediumDate'}}</td>
+                            <td>{{::reserva.itensReservados}}</td>
+                            <td>R$ {{::reserva.valorTotal}}</td>
+                        </tr>
+                    </table>
+                    <hr/>
+                </div>
+                <!-- /.caption -->
+            </div>
+            <!-- /.thumbnail -->
+        </div>
+    </div>
+</div>

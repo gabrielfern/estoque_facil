@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Reserva</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <h3>
+        Reserva de número: {{reserva.id}}
+    </h3>
+    <h3>
+        Data da Reserva: {{::reserva.dataReserva | date:'mediumDate'}}
+    </h3>
+    <h3>
+        Valor Total: R$ {{reserva.valorTotal}}
+    </h3>
+    <br/>
+    <table class="table table-striped">
+        <tr>
+            <th>Item Reservado</th>
+            <th>Quantidade</th>
+        </tr>
+        <tr ng-repeat="itemVenda in reserva.itens">
+            <td>{{::itemVenda.detalhesProduto}}</td>
+            <td>{{::itemVenda.qtd}}</td>
+        </tr>
+    </table>
+    <hr/>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Fechar</button>
+</div>

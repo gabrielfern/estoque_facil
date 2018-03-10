@@ -31,6 +31,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+          <li ng-if="logged">
+            <a href="#/">Seja bem vindo {{ user() }}</a>
+          </li>
           <li>
             <a href="#!/">Home</a>
           </li>
@@ -59,7 +62,7 @@
           <a href="#!/products" class="list-group-menu list-group-item" id="products-menu-item">
             Produtos
           </a>
-          <a href="#!categorias" ng-if="admin" class="list-group-menu list-group-item" id="notifications-menu-item">
+          <a href="#!categorias" ng-if="admin" class="list-group-menu list-group-item" id="categorias-menu-item">
             Categorias
           </a>
           <a href="#!/relatorio" ng-if="admin" class="list-group-menu list-group-item" id="sales-menu-item">
@@ -67,6 +70,9 @@
           </a>
           <a href="#!/notificacoes" ng-if="admin" class="list-group-menu list-group-item" id="notifications-menu-item">
             Notificações Gerais
+          </a>
+          <a href="#!/reservas" ng-if="user() !== false" class="list-group-menu list-group-item" id="reservas-menu-item">
+            Reservas
           </a>
         </div>
       </div>
