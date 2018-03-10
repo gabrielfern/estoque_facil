@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ufcg.si1.model.Data;
 import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.model.enums.Situacao;
 import com.ufcg.si1.repository.ProdutoRepository;
 
 
@@ -29,6 +30,8 @@ public class ProdutoService {
 		List<Produto> produtos = produtoRepository.findAll();
 		for (Produto produto: produtos)
 			produto.verificaDisponibilidadeProduto();
+
+		produtoRepository.save(produtos);
 	}
 
 
@@ -42,6 +45,8 @@ public class ProdutoService {
 			Produto oldProduct = produtoRepository.getOne(produto.getId());
 			produto.mudaSituacao(oldProduct.getSituacao());
 		}
+
+		produto.verificaDisponibilidadeProduto();
 		produtoRepository.save(produto);
 	}
 
@@ -61,8 +66,13 @@ public class ProdutoService {
 	}
 
 
-	public Produto findById(Integer id) {
-		return produtoRepository.findOne(id);
+	public Produto getProduto(Integer id) {
+		Produto produto = produtoRepository.findOne(id);
+		if (produto != null)
+			produto.verificaDisponibilidadeProduto();
+		
+		produtoRepository.save(produto);
+		return produto;
 	}
 
 
@@ -86,6 +96,7 @@ public class ProdutoService {
 
 	public List<Lote> getLotesProduto(Integer produtoId) {
 		Produto produto = produtoRepository.getOne(produtoId);
+		produto.verificaDisponibilidadeProduto();
 		return produto.getLotes();
 	}
 	
@@ -134,7 +145,7 @@ public class ProdutoService {
 
 		List<Lote> lotes = produto.getLotes();
 		for (Lote lote: lotes) {
-			if (data.compareTo(lote.getDataDeValidade()) >= 0) {
+			if (data.compareTo(lote.getDataDeValidade()) > 0) {
 				vencido = true;
 				break;
 			}
@@ -154,5 +165,11 @@ public class ProdutoService {
 		}
 
 		return produtosVencidos;
+	}
+
+
+	public void criaProduto(Produto produto) {
+		produto.mudaSituacao(Situacao.INDISPONIVEL);
+		produtoRepository.save(produto);
 	}
 }

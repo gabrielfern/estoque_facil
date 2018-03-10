@@ -32,7 +32,7 @@ public class ProdutoController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getProduto(@PathVariable("id") Integer id) {
 
-		Produto produtoProcurado = produtoService.findById(id);
+		Produto produtoProcurado = produtoService.getProduto(id);
 
 		if (produtoProcurado == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
