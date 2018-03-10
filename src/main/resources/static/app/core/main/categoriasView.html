@@ -8,9 +8,9 @@
             	<p class='list-group-item'>{{categoria.nome}}</p>
             </div>
             <div class='list-group-item'>
-    			Desconto:
-        		<select class='form-control' ng-model='categoria.desconto' ng-options="desconto for desconto in [0, 10, 25, 50]">
-        		</select>
+    			Desconto
+        		<select class='form-control' ng-model='categoria.desconto' ng-options="desconto + ' % ' for desconto in [0, 10, 25, 50]">
+                </select>
         	</div>
         	<hr>
         </div>

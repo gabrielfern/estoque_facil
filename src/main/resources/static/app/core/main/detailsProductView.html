@@ -12,7 +12,7 @@
     <table class="table table-striped">
         <tr>
             <th><a href ng-click="ordenarPor('lote.id')">Lote</a></th>
-            <th><a href ng-click="ordenarPor('lote.numeroDeItens')"Quantidade</a></th>
+            <th><a href ng-click="ordenarPor('lote.numeroDeItens')">Quantidade</a></th>
             <th><a href ng-click="ordenarPor('lote.dataDeValidade.data')">Data de Validade</a></th>
         </tr>
         <tr ng-repeat="lote in lotes | orderBy:criterioDeOrdenacaoLote:direcaoDaOrdenacaoLote">
