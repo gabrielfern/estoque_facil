@@ -36,6 +36,18 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
         return $http.put(BASE_SERVER_URL + '/admin/categorias/' + id, data);
     };
 
+    const _cadastraUsuario = function(data) {
+        return $http.post(BASE_SERVER_URL + '/usuario', data);
+    };
+
+    const _getAllReservas = function() {
+        return $http.get(BASE_SERVER_URL + '/usuario/reservas');
+    };
+
+    const _saveReservas = function(data) {
+        return $http.post(BASE_SERVER_URL + '/usuario/reservas', data);
+    };
+
     return {
         getAllProducts: _getAllProducts,
         updateProductById: _updateProductById,
@@ -45,6 +57,9 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
         getProdutosFalta: _getProdutosFalta,
         getProdutosPertoVencimento: _getProdutosPertoVencimento,
         getCategorias: _getCategorias,
-        putCategoria: _putCategoria
+        putCategoria: _putCategoria,
+        cadastraUsuario: _cadastraUsuario,
+        getAllReservas: _getAllReservas,
+        saveReservas: _saveReservas,
     };
 });

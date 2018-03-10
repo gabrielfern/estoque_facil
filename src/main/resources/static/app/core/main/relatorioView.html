@@ -36,10 +36,10 @@
                     <br/>
                     <table class="table table-striped">
                         <tr>
-                            <th><a href ng-click="ordenarRegistroPor('id')">Venda</a></th>
-                            <th><a href ng-click="ordenarRegistroPor('dataVenda')">Data de Venda</a></th>
-                            <th><a href ng-click="ordenarRegistroPor('itensvendidos')">Itens Vendidos</a></th>
-                            <th><a href ng-click="ordenarRegistroPor('valorTotal')">Preço Total</a></th>
+                            <th><a href ng-click="ordenarReservaPor('id')">Venda</a></th>
+                            <th><a href ng-click="ordenarReservaPor('dataVenda')">Data de Venda</a></th>
+                            <th><a href ng-click="ordenarReservaPor('itensvendidos')">Itens Vendidos</a></th>
+                            <th><a href ng-click="ordenarReservaPor('valorTotal')">Preço Total</a></th>
                         </tr>
                         <tr ng-repeat="venda in registrosVenda | orderBy:criterioDeOrdenacaoRegistro:direcaoDaOrdenacaoRegistro">
                             <td><a href="" ng-click="openDetalhesVenda(venda)">{{::venda.id}}</a></td>

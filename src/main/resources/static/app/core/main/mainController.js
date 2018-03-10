@@ -5,6 +5,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     $scope.productsList = [];
     $scope.produtos = [];
     $scope.admin = localStorage.getItem('senha') === 'banana';
+    $scope.user = localStorage.getItem('usuario');
 
     var loadProductsList = function () {
         // $http.get("http://localhost:8080/api/")
@@ -85,6 +86,35 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
             });
     };
 
+    $scope.isProductSelect = function(products) {
+        return products.some(function(product) {
+            return product.select;
+        });
+    };
+
+    $scope.reservaProdutos = function(produtos) {
+        const produtosReservados = produtos.filter(function(produto) {
+            if(produto.select === true) {
+                produto.select = undefined;
+                return produto;
+            }
+        });
+
+        const itensVenda = [];
+
+        for(let i = 0; i < produtosReservados.length; i ++) {
+            itensVenda.push({"produto": produtosReservados[i], "qtd": produtosReservados[i].qtdReservar});
+        }
+
+        const reserva = { "itens": itensVenda, dataReserva: new Date() };
+
+        mainService.saveReservas(reserva).then((response) => {
+            toastr.success('Reserva registrada com sucesso, seus produtos serão reservados!');
+        }, (err) => {
+            toastr.error('Erro ao reservar os produtos!');
+        })
+    };
+
     $scope.openCriarLoteDialog = function(product) {
 
         var modalInstance = $uibModal.open({
@@ -117,6 +147,16 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
 
     $scope.$on('login:updated', function(event) {
         $scope.admin = localStorage.getItem('senha') === 'banana';
+        $scope.user = localStorage.getItem('usuario');
+    });
+
+    $scope.$on('logout:updated', function(event) {
+        $scope.admin = false;
+        $scope.user = false;
+    });
+
+    $scope.$on('logged:updated', function(event) {
+        $scope.user = localStorage.getItem('usuario');
     });
 
     loadProductsList();
@@ -319,10 +359,20 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
 
 });
 
-app.controller("navbarController", function($scope, $uibModal, mainService, toastr) {
+app.controller("navbarController", function($scope, $uibModal, mainService, toastr, $rootScope, $location) {
 
     $scope.admin = localStorage.getItem("senha") === 'banana';
-    $scope.logged = localStorage.getItem("logado") !== 'false';
+    $scope.logged = localStorage.getItem('logado') !== null && localStorage.getItem("logado") !== 'false';
+    $scope.user = function() {
+        if(localStorage.getItem('usuario') !== null) {
+            return localStorage.getItem('usuario');
+        } else {
+            if(localStorage.getItem('senha') !== null) {
+                return 'Administrador';
+            }
+            return false;
+        }
+    };
 
     $scope.openCriarVendaDialog = function() {
 
@@ -378,16 +428,27 @@ app.controller("navbarController", function($scope, $uibModal, mainService, toas
             if (result.status === 201) {
                 $scope.admin = localStorage.getItem("senha") === 'banana';
                 $scope.logged = true;
+                $scope.user();
             }
         });
     };
 
-    $scope.logout = function() {
+    $scope.$on('logged:updated', function(event) {
+        $scope.admin = localStorage.getItem("senha") === 'banana';
+        $scope.logged = true;
+        $scope.user();
+    });
+
+    $scope.logout = async function() {
         localStorage.removeItem('senha');
         localStorage.setItem('logado', 'false');
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('password');
         $scope.logged = false;
         $scope.admin = false;
+        $scope.user();
         $location.path('/');
+        await $rootScope.$broadcast('logout:updated');
     }
 });
 
@@ -399,12 +460,27 @@ app.controller("detalhesVendaCtrl", function($scope, sale, $uibModalInstance) {
     };
 });
 
-app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainService, $rootScope) {
+app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainService, $rootScope, $uibModal) {
+
+    $scope.openCriarUsuario = function() {
+        $uibModalInstance.dismiss('cancel');
+        $uibModal.open({
+            ariaLabelledBy: 'Realize o Cadastro',
+            ariaDescribedBy: 'Fazer Cadastro.',
+            templateUrl: 'app/core/main/createUserView.html',
+            controller: 'CadastroUsuarioCtrl'
+        });
+    };
     
     $scope.logar = function(usuario) {
-      mainService.authenticate(angular.copy(usuario)).then(async () => {
-          await localStorage.setItem("senha", usuario.senha);
-          await localStorage.setItem('logado', 'true');
+      mainService.authenticate(angular.copy(usuario)).then((response) => {
+          if(response.status === 202) {
+              localStorage.setItem("senha", usuario.senha);
+          } else {
+              localStorage.setItem('usuario', usuario.login);
+              localStorage.setItem('password', usuario.senha);
+          }
+          localStorage.setItem('logado', 'true');
           toastr.success('Login realizado com sucesso!');
           $rootScope.$broadcast('login:updated');
           $uibModalInstance.close({
@@ -500,7 +576,7 @@ app.controller('RelatorioGeralCtrl', function($scope, mainService, $uibModal) {
         })
     };
 
-    $scope.ordenarRegistroPor = function(campo) {
+    $scope.ordenarReservaPor = function(campo) {
         $scope.criterioDeOrdenacaoRegistro = campo;
         $scope.direcaoDaOrdenacaoRegistro = !$scope.direcaoDaOrdenacaoRegistro;
     };
@@ -545,4 +621,82 @@ app.controller("CategoriasCtrl", function($scope, mainService) {
         			mainService.putCategoria(depois[i].id, JSON.stringify(depois[i]))
         }, true)
     })
+});
+
+
+app.controller("CadastroUsuarioCtrl", function($scope, toastr, $uibModalInstance, mainService, $rootScope) {
+
+    $scope.cadastrar = function(usuario) {
+
+        if(usuario.login === 'admin') {
+            toastr.error('Você não pode criar esta conta');
+            delete $scope.usuario;
+            $scope.loginForm.$setPristine();
+            return false;
+        }
+
+        mainService.cadastraUsuario(angular.copy(usuario)).then(() => {
+            localStorage.setItem('usuario', usuario.login);
+            localStorage.setItem('password', usuario.senha);
+            localStorage.setItem('logado', 'true');
+            toastr.success('Cadastro realizado com sucesso!');
+            $rootScope.$broadcast('logged:updated');
+            $uibModalInstance.close({
+                status: 201
+            });
+        }).catch(() => {
+            toastr.error('Não foi possivel realizar o cadastro');
+            delete $scope.usuario;
+            $scope.loginForm.$setPristine();
+        })
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('ReservasCtrl', function($scope, mainService, $uibModal) {
+
+    $scope.reservas = [];
+
+    const loadData = function() {
+        mainService.getAllReservas().then(function(response) {
+            $scope.reservas = response.data;
+        });
+    };
+
+    $scope.openDetalhesReserva = function(reserva) {
+        $uibModal.open({
+                ariaLabelledBy: 'Detalhes Reserva',
+                ariaDescribedBy: 'Detalhes Reserva.',
+                templateUrl: 'app/core/main/detailsReservaView.html',
+                controller: 'detalhesReservaCtrl',
+                resolve: {
+                    reserve: function() {
+                        return angular.copy(reserva);
+                    }
+                }
+            }
+        );
+    };
+
+    $scope.ordenarReservaPor = function(campo) {
+        $scope.criterioDeOrdenacaoReserva = campo;
+        $scope.direcaoDaOrdenacaoReserva = !$scope.direcaoDaOrdenacaoReserva;
+    };
+
+    $scope.$on('reserva:updated', function(event) {
+        loadData();
+    });
+
+    loadData();
+});
+
+app.controller("detalhesReservaCtrl", function($scope, reserve, $uibModalInstance) {
+    $scope.reserva = reserve;
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });

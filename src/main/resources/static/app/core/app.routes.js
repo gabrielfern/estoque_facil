@@ -14,6 +14,9 @@ app.config(function ($routeProvider) {
     }).when("/categorias", {
         templateUrl: "app/core/main/categoriasView.html",
         controller: "CategoriasCtrl"
+    }).when("/reservas", {
+        templateUrl: "app/core/main/reservasView.html",
+        controller: "ReservasCtrl"
     }).otherwise({
         redirectTo: '/'
     });
