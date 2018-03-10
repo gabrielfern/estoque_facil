@@ -29,6 +29,8 @@ public class ProdutoService {
 		List<Produto> produtos = produtoRepository.findAll();
 		for (Produto produto: produtos)
 			produto.verificaDisponibilidadeProduto();
+
+		produtoRepository.save(produtos);
 	}
 
 
@@ -61,8 +63,13 @@ public class ProdutoService {
 	}
 
 
-	public Produto findById(Integer id) {
-		return produtoRepository.findOne(id);
+	public Produto getProduto(Integer id) {
+		Produto produto = produtoRepository.findOne(id);
+		if (produto != null)
+			produto.verificaDisponibilidadeProduto();
+		
+		produtoRepository.save(produto);
+		return produto;
 	}
 
 
@@ -86,6 +93,7 @@ public class ProdutoService {
 
 	public List<Lote> getLotesProduto(Integer produtoId) {
 		Produto produto = produtoRepository.getOne(produtoId);
+		produto.verificaDisponibilidadeProduto();
 		return produto.getLotes();
 	}
 	
