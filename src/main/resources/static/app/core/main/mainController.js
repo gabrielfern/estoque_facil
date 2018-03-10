@@ -196,7 +196,7 @@ app.controller("UpdateProductPriceCtrl", function ($scope, $uibModalInstance, ma
     };
 });
 
-app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toastr, produto) {
+app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toastr, produto, $rootScope) {
 
     $scope.produto = produto;
     $scope.dateformat = 'dd/MM/yyyy';
@@ -230,6 +230,7 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
                 if (response.status === 201) {
                     console.log("Lote criado com sucesso!");
                     toastr.success("Lote criado com sucesso!");
+                    $rootScope.$broadcast('lotes:updated');
                     $uibModalInstance.close({
                         status: 201
                     });
@@ -249,7 +250,7 @@ app.controller("CriarLoteCtrl", function ($scope, $uibModalInstance, $http, toas
     }
 });
 
-app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalInstance) {
+app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalInstance, $rootScope) {
 
     $scope.productsList = [];
 
@@ -279,6 +280,7 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
         mainService.registerSale(venda).then(function(response) {
             $scope.verificarProdutoSelecionado($scope.productsList);
             toastr.success('Venda registrada com sucesso!');
+            $rootScope.$broadcast('vendas:updated');
             mainService.getAllProducts().then(function(response) {
                 $scope.productsList = response.data;
                 $uibModalInstance.close({
@@ -301,7 +303,9 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
 
         toastr.success('Venda cancelada com sucesso!');
 
-        $scope.cancel();
+        $uibModalInstance.close({
+            status: 201
+        });
     };
 
     $scope.cancel = function () {
@@ -333,12 +337,12 @@ app.controller('SalesCtrl', function($scope, mainService, $uibModal) {
                 }
             }
         );
-    }
+    };
 
     loadRegistroVendaList();
 });
 
-app.controller("navbarController", function($scope, $uibModal) {
+app.controller("navbarController", function($scope, $uibModal, mainService, toastr) {
 
     $scope.admin = localStorage.getItem("senha") === 'banana';
 
@@ -354,6 +358,36 @@ app.controller("navbarController", function($scope, $uibModal) {
 
     };
 
+    $scope.$on('vendas:updated', function(event) {
+        mainService.getProdutosFalta().then((response) => {
+            const itensFalta = response.data;
+
+            for(let i = 0; i < itensFalta.length; i ++) {
+                toastr.info(itensFalta[i].nome + ' com apenas ' + itensFalta[i].qtdProdutosDisponiveis + ' quantidade(s) disponíveis no estoque.', 'Produto em falta');
+            }
+        });
+    });
+
+    $scope.$on('lotes:updated', function(event) {
+        mainService.getProdutosFalta().then((response) => {
+            const itensFalta = response.data;
+
+            for(let i = 0; i < itensFalta.length; i ++) {
+                toastr.info(itensFalta[i].nome + ' com apenas ' + itensFalta[i].qtdProdutosDisponiveis + ' quantidade(s) disponíveis no estoque.', 'Produto em falta');
+            }
+
+            mainService.getProdutosPertoVencimento().then((response) => {
+                const itensFalta = response.data;
+
+                for(let i = 0; i < itensFalta.length; i ++) {
+                    toastr.warning(itensFalta[i].nome + ' com lote perto do vencimento abaixo de 30 dias.', 'Produto perto da Validade');
+                }
+            })
+        });
+
+
+    });
+
     $scope.openLoginDialog = function() {
         const modalInstance = $uibModal.open({
             ariaLabelledBy: 'Realize o login',
@@ -364,7 +398,7 @@ app.controller("navbarController", function($scope, $uibModal) {
 
         modalInstance.result.then(function (result) {
             if (result.status === 201) {
-                $scope.admin = true;
+                $scope.admin = localStorage.getItem("senha") === 'banana';
                 $scope.logged = true;
             }
         });
@@ -374,6 +408,7 @@ app.controller("navbarController", function($scope, $uibModal) {
         localStorage.removeItem('senha');
         $scope.logged = false;
         $scope.admin = false;
+        $location.path('/');
     }
 });
 
@@ -405,3 +440,39 @@ app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainServ
         $uibModalInstance.dismiss('cancel');
     };
 });
+
+app.controller('NotificationsCtrl', function($scope, toastr, mainService, $interval) {
+
+    $scope.produtosEmFalta = [];
+    $scope.produtosPertoVencimento = [];
+
+    const carregaProdutosEmFalta = function() {
+        mainService.getProdutosFalta().then((response) => {
+            $scope.produtosEmFalta = response.data;
+        });
+    };
+
+    const carregaPertoVencimento = function() {
+      mainService.getProdutosPertoVencimento().then((response) => {
+          $scope.produtosPertoVencimento = response.data;
+      });
+    };
+
+    $scope.$on('vendas:updated', function(event) {
+        carregaProdutosEmFalta();
+    });
+
+    $scope.$on('lotes:updated', function(event) {
+        carregaProdutosEmFalta();
+        carregaPertoVencimento();
+    });
+
+    $interval(function() {
+        carregaPertoVencimento();
+        console.log('executou');
+    }, 60000);
+
+    carregaProdutosEmFalta();
+    carregaPertoVencimento();
+});
+
