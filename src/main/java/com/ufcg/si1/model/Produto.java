@@ -163,6 +163,7 @@ public class Produto {
 	}
 
 
+
 	public void excluiLotesVencidos() {
 		Iterator<Lote> it = this.lotes.iterator();
 		Lote lote;

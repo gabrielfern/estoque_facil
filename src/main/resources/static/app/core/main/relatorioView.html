@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="flex-row row">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="thumbnail">
+                <div class="caption">
+                    <span class="title">Estoque de Produtos</span>
+                    <br/>
+                    <table class="table table-striped">
+                        <tr>
+                            <th><a href ng-click="ordenarProdutoPor('id')">Nome</a></th>
+                            <th><a href ng-click="ordenarProdutoPor('dataVenda')">Fabricante</a></th>
+                            <th><a href ng-click="ordenarProdutoPor('itensvendidos')">Código de Barras</a></th>
+                            <th><a href ng-click="ordenarProdutoPor('categoria.nome')">Categoria</a></th>
+                            <th><a href ng-click="ordenarProdutoPor('situacao')">Disponibilidade</a></th>
+                            <th><a href ng-click="ordenarProdutoPor('valorTotal')">Preço</a></th>
+                        </tr>
+                        <tr ng-repeat="produto in produtos | orderBy:criterioDeOrdenacaoProduto:direcaoDaOrdenacaoProduto">
+                            <td><a href="" ng-click="openDetalhesProduto(produto)">{{::produto.nome}}</a></td>
+                            <td>{{::produto.fabricante}}</td>
+                            <td>{{::produto.codigoBarra}}</td>
+                            <td>{{::produto.categoria.nome}}</td>
+                            <td>{{::produto.situacao}}</td>
+                            <td>R$ {{::produto.preco}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-row row">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="thumbnail">
+                <div class="caption">
+                    <span class="title">Registros Venda</span>
+                    <br/>
+                    <table class="table table-striped">
+                        <tr>
+                            <th><a href ng-click="ordenarRegistroPor('id')">Venda</a></th>
+                            <th><a href ng-click="ordenarRegistroPor('dataVenda')">Data de Venda</a></th>
+                            <th><a href ng-click="ordenarRegistroPor('itensvendidos')">Itens Vendidos</a></th>
+                            <th><a href ng-click="ordenarRegistroPor('valorTotal')">Preço Total</a></th>
+                        </tr>
+                        <tr ng-repeat="venda in registrosVenda | orderBy:criterioDeOrdenacaoRegistro:direcaoDaOrdenacaoRegistro">
+                            <td><a href="" ng-click="openDetalhesVenda(venda)">{{::venda.id}}</a></td>
+                            <td>{{::venda.dataVenda | date:'mediumDate'}}</td>
+                            <td>{{::venda.itensVendidos}}</td>
+                            <td>R$ {{::venda.valorTotal}}</td>
+                        </tr>
+                    </table>
+                    <hr/>
+                </div>
+                <!-- /.caption -->
+            </div>
+            <!-- /.thumbnail -->
+        </div>
+    </div>
+</div>
