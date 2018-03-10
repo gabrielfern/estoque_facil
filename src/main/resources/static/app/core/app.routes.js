@@ -11,12 +11,10 @@ app.config(function ($routeProvider) {
     }).when("/notificacoes", {
         templateUrl: "app/core/main/notificationsView.html",
         controller: "NotificationsCtrl"
-    })
-    //     .when("/products/create-product",{
-    //     templateUrl: "view/createProductView.html",
-    //     controller: "CreateProductCtrl"
-    // })
-        .otherwise({
+    }).when("/categorias", {
+        templateUrl: "app/core/main/categoriasView.html",
+        controller: "CategoriasCtrl"
+    }).otherwise({
         redirectTo: '/'
     });
 });

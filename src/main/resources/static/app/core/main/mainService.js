@@ -27,6 +27,10 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
     const _getProdutosPertoVencimento = function() {
         return $http.get(BASE_SERVER_URL + '/admin/produtos/vencidos');
     };
+    
+    const _getCategorias = function() {
+        return $http.get(BASE_SERVER_URL + '/admin/categorias');
+    };
 
     return {
         getAllProducts: _getAllProducts,
@@ -35,6 +39,7 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
         getAllRegistrosVenda: _getAllRegistrosVenda,
         authenticate: _authenticate,
         getProdutosFalta: _getProdutosFalta,
-        getProdutosPertoVencimento: _getProdutosPertoVencimento
+        getProdutosPertoVencimento: _getProdutosPertoVencimento,
+        getCategorias: _getCategorias
     };
 });

@@ -525,3 +525,18 @@ app.controller("detalhesProdutoCtrl", function($scope, product, $uibModalInstanc
         $scope.direcaoDaOrdenacaoLote = !$scope.direcaoDaOrdenacaoLote;
     };
 });
+
+
+app.controller("CategoriasCtrl", function($scope, mainService) {
+    $scope.categorias = []
+    
+    mainService.getCategorias().then((response) => {
+        $scope.categorias = response.data;
+    })
+    
+    $scope.$watch('categorias[0]', function() {
+    	console.log('changed')
+    })
+    
+    global = $scope
+})
