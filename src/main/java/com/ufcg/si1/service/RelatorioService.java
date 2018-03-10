@@ -18,7 +18,7 @@ public class RelatorioService {
     VendasService vendasService;
 
     public Relatorio geraRelatorio() {
-        List<Produto> produtos = produtoService.findAllProdutos();
+        List<Produto> produtos = produtoService.getProdutos();
         List<Venda> vendas = vendasService.findAllVendas();
         double receitaTotal = vendasService.geraReceita();
 

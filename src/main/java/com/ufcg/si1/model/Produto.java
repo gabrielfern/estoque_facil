@@ -133,12 +133,11 @@ public class Produto {
 	public void saveLote(Lote lote) {
 		
 		if(this.getSituacao() == Situacao.INDISPONIVEL) {
-			if (lote.getNumeroDeItens() > 0) {
+			if (lote.getNumeroDeItens() > 0 && !lote.vencido()) {
 				this.mudaSituacao(Situacao.DISPONIVEL);
+				this.lotes.add(lote);
 			}
 		}
-		
-		this.lotes.add(lote);		
 	}
 
 	public void mudaSituacao(Situacao situacao) {
@@ -153,25 +152,26 @@ public class Produto {
 
 	public int getQtdProdutosDisponiveis() {
 		int qtdProdutos = 0;
+		this.verificaDisponibilidadeProduto();
 
 		if (this.getSituacao() == Situacao.DISPONIVEL) {
-			this.excluirLotesVencidos();
 			for(Lote lote: this.getLotes())
 				qtdProdutos += lote.getNumeroDeItens();
-
 		}
 
 		return qtdProdutos;
 	}
 
 
-	public void excluirLotesVencidos() {
+
+	public void excluiLotesVencidos() {
 		Iterator<Lote> it = this.lotes.iterator();
-		while(it.hasNext()) {
-			Lote lote = it.next();
-			if(lote.vencido()) {
+		Lote lote;
+
+		while (it.hasNext()) {
+			lote = it.next();
+			if (lote.vencido())
 				it.remove();
-			}
 		}
 	}
 
@@ -192,8 +192,11 @@ public class Produto {
 			verificaDisponibilidadeProduto();
 	}
 
-	private void verificaDisponibilidadeProduto() {
-		if(this.lotes.size() == 0)
+
+	public void verificaDisponibilidadeProduto() {
+		this.excluiLotesVencidos();
+		
+		if (this.lotes.size() == 0)
 			this.mudaSituacao(Situacao.INDISPONIVEL);
 	}
 

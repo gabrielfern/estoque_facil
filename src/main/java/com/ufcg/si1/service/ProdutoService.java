@@ -19,8 +19,16 @@ public class ProdutoService {
 	ProdutoRepository produtoRepository;
 
 
-	public List<Produto> findAllProdutos() {
+	public List<Produto> getProdutos() {
+		this.atualizaDisponibilidadeProdutos();
 		return produtoRepository.findAll();
+	}
+	
+	
+	private void atualizaDisponibilidadeProdutos() {
+		List<Produto> produtos = produtoRepository.findAll();
+		for (Produto produto: produtos)
+			produto.verificaDisponibilidadeProduto();
 	}
 
 
