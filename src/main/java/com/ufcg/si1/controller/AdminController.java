@@ -18,7 +18,6 @@ import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.model.Relatorio;
 import com.ufcg.si1.model.Venda;
-import com.ufcg.si1.model.enums.Situacao;
 import com.ufcg.si1.service.CategoriaService;
 import com.ufcg.si1.service.ProdutoService;
 import com.ufcg.si1.service.VendasService;
@@ -50,9 +49,7 @@ public class AdminController {
 			}
 
 		categoriaService.certificaCategoria(produto);
-
-		produto.mudaSituacao(Situacao.INDISPONIVEL);
-		produtoService.saveProduto(produto);
+		produtoService.criaProduto(produto);
 
 		return new ResponseEntity<Produto>(HttpStatus.CREATED);
 	}

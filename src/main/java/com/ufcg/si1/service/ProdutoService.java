@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ufcg.si1.model.Data;
 import com.ufcg.si1.model.Lote;
 import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.model.enums.Situacao;
 import com.ufcg.si1.repository.ProdutoRepository;
 
 
@@ -44,6 +45,8 @@ public class ProdutoService {
 			Produto oldProduct = produtoRepository.getOne(produto.getId());
 			produto.mudaSituacao(oldProduct.getSituacao());
 		}
+
+		produto.verificaDisponibilidadeProduto();
 		produtoRepository.save(produto);
 	}
 
@@ -142,7 +145,7 @@ public class ProdutoService {
 
 		List<Lote> lotes = produto.getLotes();
 		for (Lote lote: lotes) {
-			if (data.compareTo(lote.getDataDeValidade()) >= 0) {
+			if (data.compareTo(lote.getDataDeValidade()) > 0) {
 				vencido = true;
 				break;
 			}
@@ -162,5 +165,11 @@ public class ProdutoService {
 		}
 
 		return produtosVencidos;
+	}
+
+
+	public void criaProduto(Produto produto) {
+		produto.mudaSituacao(Situacao.INDISPONIVEL);
+		produtoRepository.save(produto);
 	}
 }

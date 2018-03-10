@@ -70,7 +70,7 @@ public class Lote {
 
 	public boolean vencido() {
 		Data data = Data.dataHoje();
-		if (data.compareTo(this.getDataDeValidade()) >= 0)
+		if (data.compareTo(this.getDataDeValidade()) > 0)
 			return true;
 		return false;
 	}
