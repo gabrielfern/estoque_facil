@@ -1,0 +1,18 @@
+<div class="container">
+    <h2>Categorias</h2>
+    <hr>
+    <div class='list-group'>
+        <div ng-repeat='categoria in categorias'>
+            <div class='list-group-item'>
+            	Nome:
+            	<p class='list-group-item'>{{categoria.nome}}</p>
+            </div>
+            <div class='list-group-item'>
+    			Desconto:
+        		<select class='form-control' ng-model='categoria.desconto' ng-options="desconto for desconto in [0, 10, 25, 50]">
+        		</select>
+        	</div>
+        	<hr>
+        </div>
+    </div>
+</div>
