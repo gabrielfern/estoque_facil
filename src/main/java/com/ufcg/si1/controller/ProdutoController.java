@@ -25,7 +25,7 @@ public class ProdutoController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Produto>> getProdutos() {
-		return new ResponseEntity<>(produtoService.findAllProdutos(), HttpStatus.OK);
+		return new ResponseEntity<>(produtoService.getProdutos(), HttpStatus.OK);
 	}
 
 
