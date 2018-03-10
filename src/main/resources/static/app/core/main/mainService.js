@@ -31,6 +31,10 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
     const _getCategorias = function() {
         return $http.get(BASE_SERVER_URL + '/admin/categorias');
     };
+    
+    const _putCategoria = function(id, data) {
+        return $http.put(BASE_SERVER_URL + '/admin/categorias/' + id, data);
+    };
 
     return {
         getAllProducts: _getAllProducts,
@@ -40,6 +44,7 @@ app.factory("mainService", function ($http,BASE_SERVER_URL) {
         authenticate: _authenticate,
         getProdutosFalta: _getProdutosFalta,
         getProdutosPertoVencimento: _getProdutosPertoVencimento,
-        getCategorias: _getCategorias
+        getCategorias: _getCategorias,
+        putCategoria: _putCategoria
     };
 });

@@ -534,9 +534,11 @@ app.controller("CategoriasCtrl", function($scope, mainService) {
         $scope.categorias = response.data;
     })
     
-    $scope.$watch('categorias[0]', function() {
-    	console.log('changed')
-    })
+    $scope.$watch('categorias', function() {
+    	for (categoria of $scope.categorias) {
+    		mainService.putCategoria(categoria.id, JSON.stringify(categoria))
+    	}
+    }, true)
     
     global = $scope
 })
