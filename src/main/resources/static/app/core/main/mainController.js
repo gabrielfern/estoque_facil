@@ -4,6 +4,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     // $scope.title = "Search Product";
     $scope.productsList = [];
     $scope.produtos = [];
+    $scope.admin = localStorage.getItem('senha') === 'banana';
 
     var loadProductsList = function () {
         // $http.get("http://localhost:8080/api/")
@@ -22,7 +23,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     $scope.openCreateProductDialog = function() {
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Adicionar Produto',
-            ariaDescribedBy: 'Formulario para adição de um novo produto',
+            ariaDescribedBy: 'Formulário para adição de um novo produto',
             templateUrl: 'app/core/main/createProductView.html',
             controller: 'CreateProductCtrl',
             controllerAs: 'cpCtrl'
@@ -46,7 +47,7 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
 
         var modalInstance = $uibModal.open({
             ariaLabelledBy: 'Atribuir preço á Produto',
-            ariaDescribedBy: 'Formulario para Atribuir preço á Produto',
+            ariaDescribedBy: 'Formulário para Atribuir preço á Produto',
             templateUrl: 'app/core/main/updateProductPriceView.html',
             controller: 'UpdateProductPriceCtrl',
             resolve: {
@@ -113,6 +114,10 @@ app.controller("SearchProductCtrl", function ($scope, $uibModal, $http, toastr,$
     // $scope.atribuirPrice = function(product) {
     //     console.log(product)
     // };
+
+    $scope.$on('login:updated', function(event) {
+        $scope.admin = localStorage.getItem('senha') === 'banana';
+    });
 
     loadProductsList();
 });
@@ -394,13 +399,14 @@ app.controller("detalhesVendaCtrl", function($scope, sale, $uibModalInstance) {
     };
 });
 
-app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainService) {
+app.controller("loginCtrl", function($scope, toastr, $uibModalInstance, mainService, $rootScope) {
     
     $scope.logar = function(usuario) {
       mainService.authenticate(angular.copy(usuario)).then(async () => {
           await localStorage.setItem("senha", usuario.senha);
           await localStorage.setItem('logado', 'true');
           toastr.success('Login realizado com sucesso!');
+          $rootScope.$broadcast('login:updated');
           $uibModalInstance.close({
               status: 201
           });
@@ -528,15 +534,15 @@ app.controller("detalhesProdutoCtrl", function($scope, product, $uibModalInstanc
 
 
 app.controller("CategoriasCtrl", function($scope, mainService) {
-    $scope.categorias = []
-    
+    $scope.categorias = [];
+
     mainService.getCategorias().then((response) => {
-        $scope.categorias = response.data
+        $scope.categorias = response.data;
 
         $scope.$watch('categorias', function(depois, antes) {
         	for (let i = 0; i < depois.length; i++)
-        		if (depois[i].desconto != antes[i].desconto)
+        		if (depois[i].desconto !== antes[i].desconto)
         			mainService.putCategoria(depois[i].id, JSON.stringify(depois[i]))
         }, true)
     })
-})
+});
