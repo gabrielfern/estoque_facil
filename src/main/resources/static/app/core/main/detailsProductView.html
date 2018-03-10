@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{ produto.nome }}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <h3>
+        Quantidade de lotes: {{::qtdLotes }}
+    </h3>
+    <h3>
+        Quantidade de itens disponíveis: {{::produto.qtdProdutosDisponiveis}}
+    </h3>
+    <br/>
+    <table class="table table-striped">
+        <tr>
+            <th><a href ng-click="ordenarPor('lote.id')">Lote</a></th>
+            <th><a href ng-click="ordenarPor('lote.numeroDeItens')"Quantidade</a></th>
+            <th><a href ng-click="ordenarPor('lote.dataDeValidade.data')">Data de Validade</a></th>
+        </tr>
+        <tr ng-repeat="lote in lotes | orderBy:criterioDeOrdenacaoLote:direcaoDaOrdenacaoLote">
+            <td>{{::lote.id}}</td>
+            <td>{{::lote.numeroDeItens}}</td>
+            <td>{{::lote.dataDeValidade.data}}</td>
+        </tr>
+    </table>
+    <hr/>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Fechar</button>
+</div>

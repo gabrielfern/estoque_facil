@@ -166,9 +166,13 @@ public class Produto {
 
 
 	public void excluirLotesVencidos() {
-		for (Lote lote: this.getLotes())
-			if (lote.vencido())
-				this.lotes.remove(lote);
+		Iterator<Lote> it = this.lotes.iterator();
+		while(it.hasNext()) {
+			Lote lote = it.next();
+			if(lote.vencido()) {
+				it.remove();
+			}
+		}
 	}
 
 

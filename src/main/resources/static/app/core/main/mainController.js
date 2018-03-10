@@ -280,9 +280,9 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
         mainService.registerSale(venda).then(function(response) {
             $scope.verificarProdutoSelecionado($scope.productsList);
             toastr.success('Venda registrada com sucesso!');
-            $rootScope.$broadcast('vendas:updated');
             mainService.getAllProducts().then(function(response) {
                 $scope.productsList = response.data;
+                $rootScope.$broadcast('vendas:updated');
                 $uibModalInstance.close({
                     status: 201
                 });
@@ -312,34 +312,6 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
         $uibModalInstance.dismiss('cancel');
     };
 
-});
-
-app.controller('SalesCtrl', function($scope, mainService, $uibModal) {
-
-    $scope.registrosVenda = [];
-
-    const loadRegistroVendaList = function() {
-        mainService.getAllRegistrosVenda().then(function(response) {
-            $scope.registrosVenda = response.data;
-        });
-    };
-
-    $scope.openDetalhesVenda = function(venda) {
-        let modalInstance = $uibModal.open({
-                ariaLabelledBy: 'Detalhes Venda',
-                ariaDescribedBy: 'Detalhes Venda.',
-                templateUrl: 'app/core/main/detailsSaleView.html',
-                controller: 'detalhesVendaCtrl',
-                resolve: {
-                    sale: function() {
-                        return angular.copy(venda);
-                    }
-                }
-            }
-        );
-    };
-
-    loadRegistroVendaList();
 });
 
 app.controller("navbarController", function($scope, $uibModal, mainService, toastr) {
@@ -476,3 +448,77 @@ app.controller('NotificationsCtrl', function($scope, toastr, mainService, $inter
     carregaPertoVencimento();
 });
 
+app.controller('RelatorioGeralCtrl', function($scope, mainService, $uibModal) {
+
+    $scope.registrosVenda = [];
+    $scope.produtos = [];
+
+    const loadData = function() {
+        mainService.getAllRegistrosVenda().then(function(response) {
+            $scope.registrosVenda = response.data;
+            mainService.getAllProducts().then(function(response) {
+                $scope.produtos = response.data;
+            });
+        });
+    };
+
+    $scope.openDetalhesVenda = function(venda) {
+        let modalInstance = $uibModal.open({
+                ariaLabelledBy: 'Detalhes Venda',
+                ariaDescribedBy: 'Detalhes Venda.',
+                templateUrl: 'app/core/main/detailsSaleView.html',
+                controller: 'detalhesVendaCtrl',
+                resolve: {
+                    sale: function() {
+                        return angular.copy(venda);
+                    }
+                }
+            }
+        );
+    };
+
+    $scope.openDetalhesProduto = function(produto) {
+        $uibModal.open({
+            ariaLabelledBy: 'Detalhes Produto',
+            ariaDescribedBy: 'Detalhes Produto.',
+            templateUrl: 'app/core/main/detailsProductView.html',
+            controller: 'detalhesProdutoCtrl',
+            resolve: {
+                product: function() {
+                    return angular.copy(produto);
+                }
+            }
+        })
+    };
+
+    $scope.ordenarRegistroPor = function(campo) {
+        $scope.criterioDeOrdenacaoRegistro = campo;
+        $scope.direcaoDaOrdenacaoRegistro = !$scope.direcaoDaOrdenacaoRegistro;
+    };
+
+    $scope.ordenarProdutoPor = function(campo) {
+        $scope.criterioDeOrdenacaoProduto = campo;
+        $scope.direcaoDaOrdenacaoProduto = !$scope.direcaoDaOrdenacaoProduto;
+    };
+
+    $scope.$on('vendas:updated', function(event) {
+        loadData();
+    });
+
+    loadData();
+});
+
+app.controller("detalhesProdutoCtrl", function($scope, product, $uibModalInstance) {
+    $scope.produto = product;
+    $scope.lotes = product.lotes;
+    $scope.qtdLotes = $scope.lotes.length;
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.ordenarPor = function(campo) {
+        $scope.criterioDeOrdenacaoLote = campo;
+        $scope.direcaoDaOrdenacaoLote = !$scope.direcaoDaOrdenacaoLote;
+    };
+});
