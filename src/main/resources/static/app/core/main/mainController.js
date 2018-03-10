@@ -534,14 +534,14 @@ app.controller("detalhesProdutoCtrl", function($scope, product, $uibModalInstanc
 
 
 app.controller("CategoriasCtrl", function($scope, mainService) {
-    $scope.categorias = [];
+    $scope.categorias = []
 
     mainService.getCategorias().then((response) => {
-        $scope.categorias = response.data;
+        $scope.categorias = response.data
 
         $scope.$watch('categorias', function(depois, antes) {
         	for (let i = 0; i < depois.length; i++)
-        		if (depois[i].desconto !== antes[i].desconto)
+        		if (depois[i].desconto != antes[i].desconto)
         			mainService.putCategoria(depois[i].id, JSON.stringify(depois[i]))
         }, true)
     })
