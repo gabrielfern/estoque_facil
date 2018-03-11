@@ -70,7 +70,7 @@
           <a href="#!/notificacoes" ng-if="admin" class="list-group-menu list-group-item" id="notifications-menu-item">
             Notificações Gerais
           </a>
-          <a href="#!/reservas" ng-if="user() !== false" class="list-group-menu list-group-item" id="reservas-menu-item">
+          <a href="#!/reservas" ng-if="user() !== false && !admin" class="list-group-menu list-group-item" id="reservas-menu-item">
             Reservas
           </a>
         </div>

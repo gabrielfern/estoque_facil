@@ -346,7 +346,7 @@ app.controller("CriarSaleCtrl", function($scope, mainService, toastr, $uibModalI
         for(let i = 0; i < produtosAVender.length; i ++)
             produtosAVender[i].selecionado = false;
 
-        toastr.success('Venda cancelada com sucesso!');
+        toastr.error('Venda cancelada!');
 
         $uibModalInstance.close({
             status: 201

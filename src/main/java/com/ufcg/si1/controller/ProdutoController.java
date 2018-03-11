@@ -51,6 +51,6 @@ public class ProdutoController {
 		
 		List<Lote> lotesProduto = produtoService.getLotesProduto(produtoId);
 
-		return new ResponseEntity<>(lotesProduto, HttpStatus.CREATED);
+		return new ResponseEntity<>(lotesProduto, HttpStatus.OK);
 	}
 }
