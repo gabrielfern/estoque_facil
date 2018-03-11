@@ -29,6 +29,9 @@ public class UsuarioController {
     @RequestMapping(value="/api/usuario", method=RequestMethod.POST)
     public ResponseEntity<?> cadastraUsuario(@RequestBody Usuario usuario) {
         try {
+            if(usuarioService.usuarioExiste(usuario)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             usuarioService.saveUsuario(usuario);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
