@@ -131,12 +131,9 @@ public class Produto {
 	}
 	
 	public void saveLote(Lote lote) {
-		
-		if(this.getSituacao() == Situacao.INDISPONIVEL) {
-			if (lote.getNumeroDeItens() > 0 && !lote.vencido()) {
-				this.mudaSituacao(Situacao.DISPONIVEL);
-				this.lotes.add(lote);
-			}
+		if (lote.getNumeroDeItens() > 0 && !lote.vencido()) {
+			this.mudaSituacao(Situacao.DISPONIVEL);
+			this.lotes.add(lote);
 		}
 	}
 

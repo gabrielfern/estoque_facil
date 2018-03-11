@@ -84,9 +84,9 @@ ul.c-controls li a i {
 	flex-grow: 1;
 }
 
-.selecionado {
-    background-color: yellow;
-}
-.negrito {
+.sobre-venda {
     font-weight: bold;
+    font-size: 16px;
+    color: blue;
+
 }

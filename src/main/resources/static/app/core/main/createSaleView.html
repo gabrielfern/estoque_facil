@@ -11,7 +11,7 @@
             <th>Disponibilidade</th>
             <th>Quantidade A Vender</th>
         </tr>
-        <tr ng-class="{'selecionado negrito': product.selecionado}" ng-repeat="product in productsList">
+        <tr ng-class="{'sobre-venda': product.selecionado}" ng-repeat="product in productsList">
             <td><input type="checkbox" ng-disabled="product.situacao === 'INDISPONIVEL'" ng-model="product.selecionado" ng-click="verificarProdutoSelecionado(productsList)"/></td>
             <td>{{::product.nome}}</td>
             <td ng-if="product.preco">R$ {{::product.preco}}</td>
